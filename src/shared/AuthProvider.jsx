@@ -35,18 +35,46 @@ export const AuthProvider = ({ children }) => {
 
   const register = (data) => {
     if (data.password !== data.rePassword) {
-      alert("Mật khẩu không trùng khớp");
+      alert("Passwords do not match");
     } else {
       authService
         .Register(data)
         .then((res) => {
           if (res.data.data) {
-            alert("Đăng ký thành công");
+            alert("Registered");
             navigate(routes.login);
           }
         })
         .catch((err) => {
           alert(err.response.data.error);
+        });
+    }
+  };
+
+  const newTeacher = async ({ data }) => {
+    if (data.password !== data.rePassword) {
+      alert("Passwords do not match");
+    } else {
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("fullName", data.fullName);
+      formData.append("password", data.password);
+      formData.append("email", data.email);
+      formData.append("gender", data.gender);
+      formData.append("imageUrl", data.imageUrl);
+
+      await authService
+        .newTeacher({ data: formData })
+        .then((res) => {
+          if (res.response?.data?.error) {
+            alert(res.response.data.error);
+          } else {
+            alert("Success");
+            navigate(routes.teacherAdmin);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   };
@@ -120,6 +148,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         editUser,
+        newTeacher,
       }}
     >
       {children}

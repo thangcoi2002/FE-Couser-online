@@ -5,30 +5,30 @@ import { AuthContext } from "~/shared/AuthProvider";
 
 const SIDEBAR_TEACHER = [
   {
-    title: "HOME",
+    title: "Trang chủ",
     link: routes.homeManager,
   },
   {
-    title: "Course",
+    title: "Khóa học",
     link: routes.coursesTeacher,
   },
 ];
 
 const SIDEBAR_ADMIN = [
   {
-    title: "HOME",
+    title: "Trang chủ",
     link: routes.homeManager,
   },
   {
-    title: "Student",
+    title: "Sinh viên",
     link: routes.studentAdmin,
   },
   {
-    title: "Teacher",
+    title: "Giảng viên",
     link: routes.teacherAdmin,
   },
   {
-    title: "Course",
+    title: "Khóa học",
     link: routes.courseAdmin,
   },
 ];
@@ -48,8 +48,8 @@ function SideBar() {
           to={data.link}
           className={({ isActive }) =>
             `${
-              isActive ? "font-medium bg-gradient-to-br from-red-400 to-red-100  text-white " : ""
-            } px-4 py-3 cursor-pointer hover:bg-gradient-to-br from-red-400 to-red-100 hover:text-white hover:font-medium`
+              isActive ? "font-medium bg-primary text-white " : ""
+            } px-4 py-3 cursor-pointer hover:bg-primary hover:text-white hover:font-medium`
           }
           key={data.title}
         >

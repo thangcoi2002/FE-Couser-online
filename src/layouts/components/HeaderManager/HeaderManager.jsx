@@ -14,7 +14,7 @@ function HeaderManager() {
   };
 
   return (
-    <div className="py-3 px-4 border-b flex justify-between items-center bg-gradient-to-br from-red-400 to-red-100">
+    <div className="py-3 px-4 border-b flex justify-between items-center">
       <Link to={routes.home} className="p-2">
         <FaHome size={30} />
       </Link>
@@ -23,7 +23,7 @@ function HeaderManager() {
           className="bg-primary text-white px-4 py-2 mr-2 rounded-lg"
           onClick={newSubmit}
         >
-          {role === 0 ? "New teacher" : "New course"}
+          {role === 0 ? "Thêm giảng viên" : "Thêm khóa học"}
         </button>
         <CiLogout size={30} className="cursor-pointer" onClick={logOut} />
       </div>
