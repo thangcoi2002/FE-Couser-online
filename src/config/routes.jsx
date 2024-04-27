@@ -8,6 +8,9 @@ const routes = {
   login: "/login",
   register: "/register",
   
+  editLesson: "/manager/lesson/:id",
+  handleLesson: "/manager/handle-lesson",
+
   // Manager
   homeManager: "/manager/home",
   editCourse: "/manager/edit-course/:id",

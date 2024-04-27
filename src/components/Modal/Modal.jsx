@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { IoIosCloseCircle } from "react-icons/io";
 
-function Modal({ showModal, onClose, onSubmit, title, description }) {
+function Modal({ showModal, onClose, onSubmit, title, description , body }) {
   return (
     <>
       {showModal ? (
@@ -18,9 +18,9 @@ function Modal({ showModal, onClose, onSubmit, title, description }) {
                   />
                 </div>
                 <div className="relative p-6 flex-auto">
-                  <p className="my-4 mx-10 text-blueGray-500 text-lg leading-relaxed">
+                 {body ? body : <p className="my-4 mx-10 text-blueGray-500 text-lg leading-relaxed">
                     {description}
-                  </p>
+                  </p>}
                 </div>
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                   <button
@@ -28,14 +28,14 @@ function Modal({ showModal, onClose, onSubmit, title, description }) {
                     type="button"
                     onClick={onClose}
                   >
-                    Cancel
+                    Hủy
                   </button>
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={onSubmit}
                   >
-                    Done
+                    Đồng ý
                   </button>
                 </div>
               </div>

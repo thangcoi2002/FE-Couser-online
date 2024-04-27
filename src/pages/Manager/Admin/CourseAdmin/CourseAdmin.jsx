@@ -6,7 +6,7 @@ import Modal from "~/components/Modal";
 
 import * as courseService from "~/services/courseService";
 
-function CourseTeacher() {
+function CourseAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [nameCourse, setNameCourse] = useState(null);
@@ -110,7 +110,7 @@ function CourseTeacher() {
                   </th>
                   <td className="px-6 py-4"> {item.description}</td>
                   <td className="px-6 py-4">
-                    {item.lesson.length}
+                    <Link to={`/manager/lesson/${item._id}`} className="text-blue-500 underline">{item.lesson.length}</Link>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <Link
@@ -170,4 +170,4 @@ function CourseTeacher() {
   );
 }
 
-export default CourseTeacher;
+export default CourseAdmin;

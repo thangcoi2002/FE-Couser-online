@@ -1,15 +1,9 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-function VideoPlayer({data}) {
-    console.log(data)
+function VideoPlayer({ data }) {
   return (
-    <ReactPlayer
-      playing={false}
-      volume={0.2}
-      controls
-      url={data}
-    />
+      <ReactPlayer playing={false} volume={0.2} controls url={data}/>
   );
 }
 
