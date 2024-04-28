@@ -30,14 +30,14 @@ function Login() {
         <div className="p-6 space-y-4">
           <TextInput
             type="text"
-            title="Username"
+            title="Tài khoản"
             value={data.username}
             name="username"
             onChange={onChange}
           />
           <TextInput
             type="password"
-            title="Password"
+            title="Mật khẩu"
             value={data.password}
             name="password"
             onChange={onChange}
@@ -49,14 +49,14 @@ function Login() {
             className="w-full px-6 py-3 mt-6 font-bold text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-slate-700"
             type="submit"
           >
-            Sign in
+           Đăng nhập
           </button>
         </div>
 
         <p className="my-4 text-center">
-          Don't have an account?{" "}
+          Chưa có tài khoản?{" "}
           <Link to={routes.register} className="font-bold underline">
-            Sign up
+            Đăng ký ngay
           </Link>
         </p>
       </form>

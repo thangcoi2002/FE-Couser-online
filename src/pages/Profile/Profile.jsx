@@ -25,13 +25,13 @@ function Profile() {
             to={routes.editProfile}
             className="flex items-center mt-2 bg-primary px-4 py-2 font-medium rounded-lg text-white"
           >
-            Change
+            Thay đổi thông tin
           </Link>
         </div>
 
         <div className="md:w-2/3 w-full mt-4">
           <div className="border border-blue-200 rounded-[5px] overflow-hidden mb-2">
-            <div className="bg-blue-200 px-4 py-2">Full name</div>
+            <div className="bg-blue-200 px-4 py-2">Họ và tên</div>
             <div className="px-4 py-2">{currentUser.fullName}</div>
           </div>
 
@@ -41,10 +41,20 @@ function Profile() {
           </div>
 
           <div className="border border-blue-200 rounded-[5px] overflow-hidden mb-2">
-            <div className="bg-blue-200 px-4 py-2">Gender</div>
+            <div className="bg-blue-200 px-4 py-2">Giới tính</div>
             <div className="px-4 py-2">
-              {currentUser.gender === 0 ? "Male" : "Female"}
+              {currentUser.gender === 0 ? "Nam" : "Nữ"}
             </div>
+          </div>
+          
+          <div className="border border-blue-200 rounded-[5px] overflow-hidden mb-2">
+            <div className="bg-blue-200 px-4 py-2">Số điện thoại</div>
+            <div className="px-4 py-2">{currentUser.phone}</div>
+          </div>
+          
+          <div className="border border-blue-200 rounded-[5px] overflow-hidden mb-2">
+            <div className="bg-blue-200 px-4 py-2">Địa chỉ</div>
+            <div className="px-4 py-2">{currentUser.address}</div>
           </div>
         </div>
       </div>

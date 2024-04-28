@@ -11,6 +11,8 @@ function NewTeacher() {
     email: "",
     gender: 0,
     role: 1,
+    address: "",
+    phone: ""
   });
   const [image, setImage] = useState("");
 
@@ -53,7 +55,7 @@ function NewTeacher() {
           htmlFor="Username"
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Username
+          Tài khoản
         </label>
       </div>
       <div className="grid md:grid-cols-2 md:gap-6">
@@ -72,7 +74,7 @@ function NewTeacher() {
             htmlFor="password"
             className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Password
+            Mật khẩu
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
@@ -90,7 +92,7 @@ function NewTeacher() {
             htmlFor="rePassword"
             className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Re password
+            Nhập lại mật khẩu
           </label>
         </div>
       </div>
@@ -109,7 +111,7 @@ function NewTeacher() {
           htmlFor="fullName"
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Full name
+          Họ và tên
         </label>
       </div>
 
@@ -123,7 +125,7 @@ function NewTeacher() {
             value={0}
             onChange={onChange}
           />
-          <span className="ml-2">Male</span>
+          <span className="ml-2">Nam</span>
         </label>
         <label className="inline-flex items-center ml-4">
           <input
@@ -134,7 +136,7 @@ function NewTeacher() {
             checked={data.gender == 1}
             onChange={onChange}
           />
-          <span className="ml-2">Female</span>
+          <span className="ml-2">Nữ</span>
         </label>
       </div>
       <div className="relative z-0 w-full mb-5 group">
@@ -152,7 +154,47 @@ function NewTeacher() {
           htmlFor="email"
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Email address
+          Địa chỉ email
+        </label>
+      </div>
+
+      
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="number"
+          name="phone"
+          id="phone"
+          value={data.phone}
+          onChange={onChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          required
+        />
+        <label
+          htmlFor="phone"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Số điện thoại
+        </label>
+      </div>
+
+      
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          name="address"
+          id="address"
+          value={data.address}
+          onChange={onChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          required
+        />
+        <label
+          htmlFor="address"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Địa chỉ
         </label>
       </div>
 
@@ -161,7 +203,7 @@ function NewTeacher() {
           className="mb-2 text-sm font-medium text-gray-900 border rounded-lg p-4"
           htmlFor="file_input"
         >
-          Upload avatar
+          Tải ảnh đại diện
         </label>
         {image && (
           <img
@@ -187,7 +229,7 @@ function NewTeacher() {
           type="submit"
           className=" bg-primary hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-white text-sm w-full sm:w-auto px-5 py-2.5 text-center "
         >
-          Submit
+          Thêm
         </button>
      </div>
     </form>

@@ -26,13 +26,13 @@ function Header() {
             to={routes.login}
             className="bg-primary text-white font-medium px-4 py-2 rounded-lg mr-2"
           >
-            Login
+            Đăng nhập
           </Link>
           <Link
             to={routes.register}
             className="border font-medium px-4 py-2 rounded-lg "
           >
-            Register
+            Đăng ký
           </Link>
         </div>
       )}

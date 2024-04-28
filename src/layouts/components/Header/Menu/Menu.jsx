@@ -14,14 +14,14 @@ function Menu() {
 
   const MENU_ITEM = [
     {
-      title: "Profile",
+      title: "Thông tín cá nhân",
       link: () => {
         navigate(routes.profile);
       },
       icon: <FaUserCircle size={18} className="mr-4" />,
     },
     {
-      title: "Log out",
+      title: "Đăng xuất",
       link: () => {
         logOut();
       },
@@ -31,7 +31,7 @@ function Menu() {
 
   const MENU_STUDENT = [
     {
-      title: "My course",
+      title: "Khóa học của tôi",
       link: () => {
         navigate(routes.myCourses);
       },
@@ -80,7 +80,7 @@ function Menu() {
         </div>
       )}
       {isOpen && (
-        <div className="absolute min-w-[150px] right-0 border rounded-md bg-white z-10">
+        <div className="absolute min-w-[180px] right-0 border rounded-md bg-white z-10">
           {MENU.map((data) => (
             <ListItem key={data.title} data={data} />
           ))}

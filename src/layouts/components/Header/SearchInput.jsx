@@ -14,7 +14,7 @@ function SearchInput() {
   return (
     <div className="w-1/3 sm:w-1/2 flex items-center border border-gray-300 rounded-xl overflow-hidden">
       <input
-        placeholder="Search ..."
+        placeholder="Nhập tên khóa học..."
         value={nameCourse}
         name={nameCourse}
         onChange={(e) => setNameCourse(e.target.value)}

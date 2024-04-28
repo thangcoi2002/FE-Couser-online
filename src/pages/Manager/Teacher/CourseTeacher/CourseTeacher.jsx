@@ -70,7 +70,7 @@ function CourseTeacher() {
       <div className="flex justify-end my-4">
         <div className="md:w-1/3 w-full flex items-center border border-gray-200 rounded-xl overflow-hidden">
           <input
-            placeholder="Search ..."
+            placeholder="Tìm kiếm ..."
             className="w-full pl-4 outline-none p-2"
             onChange={onChange}
             value={nameCourse || ""}

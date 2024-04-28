@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation} from "react-router-dom";
 
 import * as authService from "~/services/authService";
 import routes from "~/config/routes";
@@ -9,6 +9,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentUser, setCurrentUser] = useState({});
   const [token, setToken] = useState("");
   const [role, setRole] = useState(2);
@@ -62,6 +63,8 @@ export const AuthProvider = ({ children }) => {
       formData.append("email", data.email);
       formData.append("gender", data.gender);
       formData.append("imageUrl", data.imageUrl);
+      formData.append("phone", data.phone);
+      formData.append("address", data.address);
 
       await authService
         .newTeacher({ data: formData })
@@ -89,6 +92,8 @@ export const AuthProvider = ({ children }) => {
       formData.append("email", data.email);
       formData.append("gender", data.gender);
       formData.append("imageUrl", data.imageUrl);
+      formData.append("phone", data.phone);
+      formData.append("address", data.address);
 
       await authService
         .editUser({ data: formData, id })
@@ -136,6 +141,12 @@ export const AuthProvider = ({ children }) => {
         });
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (role === 0 && location.pathname === routes.home) {
+     navigate(routes.homeManager);
+    }
+  },[location,navigate,role])
 
   return (
     <AuthContext.Provider
