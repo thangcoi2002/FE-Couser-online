@@ -115,7 +115,6 @@ export const AuthProvider = ({ children }) => {
     setToken("");
     setRole("");
     navigate(routes.home);
-    location.reload();
   };
 
   useEffect(() => {

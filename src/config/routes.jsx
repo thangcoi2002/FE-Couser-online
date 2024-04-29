@@ -19,6 +19,11 @@ const routes = {
   courseAdmin: "/manager/admin/course",
   editUser: "/manager/admin/user/edit/:id",
   newTeacher: "/manager/admin/new-teacher",
+
+  // Teacher
+  newCourse: "/manager/teacher/new-course",
+  courseTeacher: "/manager/teacher/course",
+  courseSold: "/manager/teacher/course-sold"
 };
 
 export default routes;

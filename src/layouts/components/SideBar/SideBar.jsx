@@ -10,7 +10,11 @@ const SIDEBAR_TEACHER = [
   },
   {
     title: "Khóa học",
-    link: routes.coursesTeacher,
+    link: routes.courseTeacher,
+  },
+  {
+    title: "Khóa học đã bán",
+    link: routes.courseSold,
   },
 ];
 
@@ -42,7 +46,7 @@ function SideBar() {
   }
 
   return (
-    <div className="w-full md:w-1/6 md:border-r flex md:flex-col flex-row md:justify-start justify-center">
+    <div className="w-full md:w-1/6 md:border-r flex md:flex-col flex-row md:justify-start justify-center ">
       {sideBarItem.map((data) => (
         <NavLink
           to={data.link}

@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import Modal from "~/components/Modal";
 
 import * as courseService from "~/services/courseService";
+import TableCourse from "../../Constant/TableCourse";
+import { AuthContext } from "~/shared/AuthProvider";
 
 function CourseTeacher() {
+  const {currentUser} = useContext(AuthContext)
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [nameCourse, setNameCourse] = useState(null);
@@ -24,14 +27,15 @@ function CourseTeacher() {
 
   const fetch = useCallback(() => {
     courseService
-      .getAllCourse({
+      .getCourseTeacher({
         page: currentPage,
         perPage: 5,
         nameCourse: nameCourse,
+        teacherId: currentUser._id
       })
       .then((course) => {
-        setData(course.data.data);
-        setTotalPage(course.data.totalPages);
+        setData(course.data);
+        setTotalPage(course.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -78,68 +82,9 @@ function CourseTeacher() {
           />
         </div>
       </div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Tên khóa học
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Mô tả
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Số bài học
-              </th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.length > 0 ? (
-              data.map((item) => (
-                <tr
-                  className="bg-white border-b hover:bg-gray-100 "
-                  key={item._id}
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-4  font-medium text-gray-900 "
-                  >
-                    {item.nameCourse}
-                  </th>
-                  <td className="px-6 py-4"> {item.description}</td>
-                  <td className="px-6 py-4">
-                    {item.lesson.length}
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <Link
-                      to={`/manager/edit-course/${item._id}`}
-                      className="font-medium p-2 text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Sửa
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => onOpen(item._id)}
-                      className="font-medium p-2 text-red-600 dark:text-red-500 hover:underline"
-                    >
-                      Xóa
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5} className="text-center py-4">
-                  There is no data
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+
+      <TableCourse data={data} onOpen={onOpen} />
+
       <ReactPaginate
         pageCount={totalPage}
         pageRangeDisplayed={3}

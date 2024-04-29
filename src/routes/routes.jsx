@@ -17,8 +17,11 @@ import {
   CourseAdmin,
   EditCourse,
   EditLesson,
-  HandleLesson
+  HandleLesson,
+  NewCourse,
 } from "~/pages/Manager";
+import { CourseTeacher } from "~/pages/Manager/Teacher";
+import CourseSold from "~/pages/Manager/Teacher/CourseSold";
 
 const publicRoutes = [
   { path: config.routes.home, component: Home },
@@ -66,6 +69,23 @@ const publicRoutes = [
   {
     path: config.routes.editCourse,
     component: EditCourse,
+    Layout: ManagerLayout,
+  },
+
+  // Teacher manager
+  {
+    path: config.routes.newCourse,
+    component: NewCourse,
+    Layout: ManagerLayout,
+  },
+  {
+    path: config.routes.courseTeacher,
+    component: CourseTeacher,
+    Layout: ManagerLayout,
+  },
+  {
+    path: config.routes.courseSold,
+    component: CourseSold,
     Layout: ManagerLayout,
   },
 ];

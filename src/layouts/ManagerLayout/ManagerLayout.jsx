@@ -13,13 +13,11 @@ function ManagerLayout({ children }) {
 
   return (
     <>
-    <div>
       <HeaderManager />
       <div className="flex flex-col md:flex-row">
         <SideBar />
-        {children}
+        <div className="w-full md:w-5/6">{children}</div>
       </div>
-    </div>
     </>
   );
 }

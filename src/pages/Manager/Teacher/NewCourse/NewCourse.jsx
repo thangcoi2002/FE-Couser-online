@@ -30,14 +30,6 @@ function NewCourse() {
       const newData = { ...data };
       newData.imageUrl = file;
       setData(newData);
-    } else if (file && file.type.startsWith("application/")) {
-      const newData = { ...data };
-      newData.file = file;
-      setData(newData);
-    } else if (file && file.type.startsWith("video/")) {
-      const newData = { ...data };
-      newData.videoUrl = file;
-      setData(newData);
     }
   };
 
@@ -47,16 +39,14 @@ function NewCourse() {
     formData.append("nameCourse", data.nameCourse);
     formData.append("description", data.description);
     formData.append("imageUrl", data.imageUrl);
-    formData.append("videoUrl", data.videoUrl);
     formData.append("price", data.price);
-    formData.append("file", data.file);
 
     await courseService
       .newCourse({ data: formData })
       .then((result) => {
         if (result.status === 200) {
-          alert("add success");
-          navigate(routes.coursesTeacher);
+          alert("Thêm thành công");
+          navigate(routes.courseTeacher);
         }
       })
       .catch((error) => console.log(error));
@@ -79,7 +69,7 @@ function NewCourse() {
           htmlFor="nameCourse"
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Name course
+          Tên khóa học
         </label>
       </div>
 
@@ -97,7 +87,7 @@ function NewCourse() {
           htmlFor="description"
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Description
+          Mô tả
         </label>
       </div>
 
@@ -117,7 +107,7 @@ function NewCourse() {
           htmlFor="price"
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
-          Price
+          Giá
         </label>
       </div>
 
@@ -126,7 +116,7 @@ function NewCourse() {
           className="mb-2 text-sm font-medium text-gray-900 border rounded-lg p-4"
           htmlFor="file_image"
         >
-          Upload image
+         Tải ảnh lên
         </label>
         {image && (
           <img
@@ -146,48 +136,12 @@ function NewCourse() {
         />
       </div>
 
-      <div className="flex flex-col mb-4">
-        <label
-          className="mb-2 text-sm font-medium text-gray-900 border rounded-lg p-4"
-          htmlFor="file_video"
-        >
-          Upload Video
-        </label>
-        <input
-          className="opacity-0 h-0"
-          id="file_video"
-          name="videoUrl"
-          required
-          type="file"
-          accept="video/*"
-          onChange={onChangeFile}
-        />
-      </div>
-
-      <div className="flex flex-col mb-4">
-        <label
-          className="mb-2 text-sm font-medium text-gray-900 border rounded-lg p-4"
-          htmlFor="file_course"
-        >
-          Upload file course ( pdf or docx )
-        </label>
-        <input
-          required
-          type="file"
-          className="opacity-0 h-0"
-          onChange={onChangeFile}
-          accept=".pdf, .docx"
-          id="file_course"
-          name="file"
-        />
-      </div>
-
       <div className="flex justify-center w-full">
         <button
           type="submit"
           className=" bg-primary hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
         >
-          Submit
+          Xác nhận
         </button>
       </div>
     </form>

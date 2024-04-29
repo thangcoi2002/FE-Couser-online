@@ -4,7 +4,7 @@ function TableCourse({ data, onOpen }) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 text-nowrap">
           <tr>
             <th scope="col" className="px-6 py-3">
               Tên khóa học
@@ -14,6 +14,9 @@ function TableCourse({ data, onOpen }) {
             </th>
             <th scope="col" className="px-6 py-3">
               Số bài học
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Giá tiền
             </th>
             <th scope="col" className="px-6 py-3">
               Ngày tạo
@@ -31,7 +34,7 @@ function TableCourse({ data, onOpen }) {
               >
                 <th
                   scope="row"
-                  className="px-6 py-4  font-medium text-gray-900 "
+                  className="px-6 py-4  font-medium text-gray-900  text-nowrap"
                 >
                   {item.nameCourse}
                 </th>
@@ -43,6 +46,9 @@ function TableCourse({ data, onOpen }) {
                   >
                     {item.lesson.length}
                   </Link>
+                </td>
+                <td className="px-6 py-4">
+                  {item.price.toLocaleString("vi-VN")}  
                 </td>
                 <td className="px-6 py-4">
                   {new Date(item.createdAt).toLocaleDateString("vi-VN")}
