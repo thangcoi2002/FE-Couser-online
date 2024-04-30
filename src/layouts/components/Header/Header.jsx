@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import routes from "~/config/routes";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUserPlus } from "react-icons/fa";
 
 import Menu from "./Menu";
 import { useContext, useState } from "react";
 import { AuthContext } from "~/shared/AuthProvider";
 import SearchInput from "./SearchInput";
+import { IoLogIn } from "react-icons/io5";
 
 function Header() {
   const { token } = useContext(AuthContext);
@@ -21,20 +22,37 @@ function Header() {
       {token ? (
         <Menu />
       ) : (
-        <div>
-          <Link
-            to={routes.login}
-            className="bg-primary text-white font-medium px-4 py-2 rounded-lg mr-2"
-          >
-            Đăng nhập
-          </Link>
-          <Link
-            to={routes.register}
-            className="border font-medium px-4 py-2 rounded-lg "
-          >
-            Đăng ký
-          </Link>
-        </div>
+        <>
+          <div className="hidden sm:block">
+            <Link
+              to={routes.login}
+              className="bg-primary text-white font-medium px-4 py-2 rounded-lg mr-2"
+            >
+              Đăng nhập
+            </Link>
+            <Link
+              to={routes.register}
+              className="border font-medium px-4 py-2 rounded-lg "
+            >
+              Đăng ký
+            </Link>
+          </div>
+
+          <div className="fixed flex justify-between bottom-0 z-10 w-full  sm:hidden bg-white">
+            <Link
+              className="w-1/2 flex justify-center py-4 hover:bg-slate-200"
+              to={routes.login}
+            >
+              <IoLogIn size={20}/>
+            </Link>
+            <Link
+              className="w-1/2 flex justify-center py-4 hover:bg-slate-200"
+              to={routes.register}
+            >
+              <FaUserPlus size={20}/>
+            </Link>
+          </div>
+        </>
       )}
     </div>
   );

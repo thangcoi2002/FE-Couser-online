@@ -4,7 +4,7 @@ import { AuthContext } from "~/shared/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 import CourseItem from "./CourseItem";
-import * as courseService from "~/services/courseService";
+import * as myCourseService from "~/services/myCourseService";
 import * as paymentService from "~/services/paymentService";
 import routes from "~/config/routes";
 
@@ -13,7 +13,7 @@ function ListCourse({ data }) {
   const navigator = useNavigate();
 
   const fetch = (courseId) => {
-    courseService
+    myCourseService
       .buyCourse({ courseId })
       .then((course) => {
         if (course) {
@@ -47,9 +47,10 @@ function ListCourse({ data }) {
 
   const onClickBuy = (dataCourse) => {
     if (token) {
-      if (dataCourse.price === 0) {
+      if (!dataCourse.price || dataCourse.price === 0) {
         fetch(dataCourse._id);
-      } else {
+      } 
+      else {
         fetchPayment(dataCourse);
       }
     } else {

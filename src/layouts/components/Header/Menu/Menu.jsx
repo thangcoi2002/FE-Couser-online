@@ -1,15 +1,16 @@
 import { useContext, useState } from "react";
-import { FaBook, FaUserCircle } from "react-icons/fa";
+import { FaBook, FaHome, FaUserCircle } from "react-icons/fa";
 
 import ListItem from "./ListItem";
 import routes from "~/config/routes";
 import { CiLogout } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "~/shared/AuthProvider";
+import { MdDashboardCustomize } from "react-icons/md";
 
 function Menu() {
   const navigate = useNavigate();
-  const { logOut, currentUser ,role} = useContext(AuthContext);
+  const { logOut, currentUser, role } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const MENU_ITEM = [
@@ -18,14 +19,14 @@ function Menu() {
       link: () => {
         navigate(routes.profile);
       },
-      icon: <FaUserCircle size={18} className="mr-4" />,
+      icon: <FaUserCircle size={18} className="mr-0 sm:mr-4" />,
     },
     {
       title: "Đăng xuất",
       link: () => {
         logOut();
       },
-      icon: <CiLogout size={18} className="mr-4" />,
+      icon: <CiLogout size={18} className="mr-0 sm:mr-4" />,
     },
   ];
 
@@ -33,12 +34,12 @@ function Menu() {
     {
       title: "Khóa học của tôi",
       link: () => {
-        navigate(routes.myCourses);
+        navigate(routes.myCourse);
       },
-      icon: <FaBook size={18} className="mr-4 text-sky-500" />,
+      icon: <FaBook size={18} className="mr-0 sm:mr-4 text-sky-500" />,
     },
     ...MENU_ITEM,
-  ]
+  ];
 
   const MENU_TEACHER = [
     {
@@ -46,16 +47,16 @@ function Menu() {
       link: () => {
         navigate(routes.homeManager);
       },
-      icon: <FaBook size={18} className="mr-4 text-sky-500" />,
+      icon: <MdDashboardCustomize size={18} className="mr-0 sm:mr-4" />,
     },
     ...MENU_ITEM,
-  ]
+  ];
 
-  const MENU = role === 1 ? MENU_TEACHER : MENU_STUDENT
+  const MENU = role === 1 ? MENU_TEACHER : MENU_STUDENT;
 
   return (
-    <div className="relative">
-      {role !== 0 ? (
+    <>
+      <div className="relative hidden sm:block">
         <button onClick={() => setIsOpen(!isOpen)}>
           {currentUser.imageUrl ? (
             <img
@@ -67,26 +68,27 @@ function Menu() {
             <FaUserCircle size={32} />
           )}
         </button>
-      ) : (
-        <div className="flex items-center">
-          <Link
-            to={routes.homeManager}
-            className="bg-primary text-white font-medium px-4 py-2 rounded-lg "
-          >
-            Dashboard
-          </Link>
+        {isOpen && (
+          <div className="absolute min-w-[180px] right-0 border rounded-md bg-white z-10">
+            {MENU.map((data) => (
+              <ListItem key={data.title} data={data} />
+            ))}
+          </div>
+        )}
+      </div>
 
-          <CiLogout size={58} className="cursor-pointer p-4" onClick={logOut} />
-        </div>
-      )}
-      {isOpen && (
-        <div className="absolute min-w-[180px] right-0 border rounded-md bg-white z-10">
-          {MENU.map((data) => (
-            <ListItem key={data.title} data={data} />
-          ))}
-        </div>
-      )}
-    </div>
+      <div className="sm:hidden w-full fixed bottom-0 bg-white z-10 flex flex-row">
+        <Link
+          to={routes.home}
+          className="w-1/4 flex justify-center py-4 text-sm cursor-pointer hover:bg-slate-200"
+        >
+          <FaHome size={18} />
+        </Link>
+        {MENU.map((data) => (
+          <ListItem key={data.title} data={data} />
+        ))}
+      </div>
+    </>
   );
 }
 

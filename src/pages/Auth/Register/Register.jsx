@@ -29,7 +29,7 @@ function Register() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="my-10 h-screen flex justify-center items-center ">
       <form
         onSubmit={onSubmit}
         className="relative w-96 flex flex-col rounded-xl bg-white border border-gray-900 text-gray-700 shadow-md"

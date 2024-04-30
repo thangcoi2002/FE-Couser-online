@@ -35,6 +35,10 @@ const SIDEBAR_ADMIN = [
     title: "Khóa học",
     link: routes.courseAdmin,
   },
+  {
+    title: "Khóa học đã bán",
+    link: routes.courseSoldAdmin,
+  },
 ];
 
 function SideBar() {

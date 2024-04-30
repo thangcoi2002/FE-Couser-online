@@ -19,15 +19,26 @@ import {
   EditLesson,
   HandleLesson,
   NewCourse,
+  CourseTeacher,
+  CourseSold,
+  CourseSoldAdmin,
 } from "~/pages/Manager";
-import { CourseTeacher } from "~/pages/Manager/Teacher";
-import CourseSold from "~/pages/Manager/Teacher/CourseSold";
+import AllCourse from "~/pages/AllCourse";
+import PaymentResult from "~/pages/PaymentResult";
+import MyCourse from "~/pages/MyCourse";
+import DetailCourse from "~/pages/DetailCourse";
+import DetailLesson from "~/pages/DetailLesson";
 
 const publicRoutes = [
   { path: config.routes.home, component: Home },
 
   { path: config.routes.profile, component: Profile },
   { path: config.routes.editProfile, component: EditProfile },
+  { path: config.routes.listCourse, component: AllCourse },
+  { path: config.routes.paymentResult, component: PaymentResult },
+  { path: config.routes.myCourse, component: MyCourse },
+  { path: config.routes.detailCourse, component: DetailCourse },
+  { path: config.routes.detailLesson, component: DetailLesson },
 
   { path: config.routes.login, component: Login, Layout: null },
   { path: config.routes.register, component: Register, Layout: null },
@@ -69,6 +80,11 @@ const publicRoutes = [
   {
     path: config.routes.editCourse,
     component: EditCourse,
+    Layout: ManagerLayout,
+  },
+  {
+    path: config.routes.courseSoldAdmin,
+    component: CourseSoldAdmin,
     Layout: ManagerLayout,
   },
 

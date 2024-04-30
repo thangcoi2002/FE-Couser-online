@@ -4,6 +4,11 @@ const routes = {
   home: "/",
   profile: "/profile",
   editProfile: "/profile/edit",
+  listCourse: "/list-courses",
+  paymentResult: "/payment-result",
+  myCourse: "/my-course",
+  detailCourse: "/course/:id",
+  detailLesson: "/lesson/:id",
 
   login: "/login",
   register: "/register",
@@ -18,6 +23,7 @@ const routes = {
   teacherAdmin: "/manager/admin/teacher",
   courseAdmin: "/manager/admin/course",
   editUser: "/manager/admin/user/edit/:id",
+  courseSoldAdmin: "/manager/admin/course-sold",
   newTeacher: "/manager/admin/new-teacher",
 
   // Teacher

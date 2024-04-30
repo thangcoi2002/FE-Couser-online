@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import Modal from "../Modal";
-import * as courseService from "~/services/courseService";
+import * as myCourseService from "~/services/myCourseService";
 import routes from "~/config/routes";
 import { AuthContext } from "~/shared/AuthProvider";
 
@@ -15,10 +15,10 @@ function CourseItem({ data, onClickBuy }) {
 
   const fetch = useCallback(() => {
     if (token) {
-      courseService
+      myCourseService
         .getMyCourse({})
         .then((course) => {
-          const checked = course.data.data.filter(
+          const checked = course.data.filter(
             (item) => item.courseId._id === data._id
           );
           if (checked.length > 0) {
@@ -45,11 +45,11 @@ function CourseItem({ data, onClickBuy }) {
   };
 
   return (
-    <div className="w-full max-w-sm bg-gradient-to-br from-red-200 to-red-100 border border-gray-100 rounded-lg shadow-2xl">
-      <div className="h-[350px]">
+    <div className="w-full max-w-sm bg-gradient-to-br from-green-200 to-green-100 border border-gray-100 rounded-lg shadow-2xl">
+      <div className="h-[250px] overflow-hidden">
         <Link to={`/course/${data._id}`}>
           <img
-            className="p-8 rounded-t-lg w-full max-w-sm mb-10"
+            className="p-8 rounded-t-lg w-full max-w-sm h-[250px]"
             src={data.imageUrl}
             alt="product image"
           />
@@ -73,21 +73,21 @@ function CourseItem({ data, onClickBuy }) {
                   style: "currency",
                   currency: "VND",
                 }).format(data.price)
-              : "Get free"}
+              : "Miễn phí"}
           </span>
           <button
             onClick={() => {
-              received ? navigate(routes.myCourses) : setShowModal(true);
+              received ? navigate(routes.myCourse) : setShowModal(true);
             }}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            {received ? "Received" : data.price > 0 ? "Buy" : "Get free"}
+            {received ? "Đã mua" : data.price > 0 ? "Mua" : "Nhận miển phí"}
           </button>
         </div>}
       </div>
       <Modal
-        title="Buy course"
-        description={"Are you sure to buy the course?"}
+        title="Mua khóa học"
+        description={"Bạn chắc chắn mua khoa học này?"}
         showModal={showModal}
         onClose={onClose}
         onSubmit={onSubmit}

@@ -7,13 +7,13 @@ import * as courseService from "~/services/courseService"
 import { AuthContext } from "~/shared/AuthProvider";
 import TableCourseSold from "~/pages/Manager/Constant/TableCourseSold"
 
-function CourseSold() {
+function CourseSoldAdmin() {
     const {currentUser} = useContext(AuthContext)
     const [currentPage, setCurrentPage] = useState(1);
     const [data, setData] = useState([]);
     const [nameCourse, setNameCourse] = useState(null);
     const [totalPage, setTotalPage] = useState(0);
-  
+
     const handlePageChange = (selectedPage) => {
       setCurrentPage(selectedPage.selected + 1);
     };
@@ -24,11 +24,10 @@ function CourseSold() {
   
     const fetch = useCallback(() => {
         courseService
-         .getCourseSoldTeacher({
+         .getAllCourseSold({
             page: currentPage,
             perPage: 5,
             nameCourse: nameCourse,
-            id: currentUser._id
           })
          .then((res) => {
             setData(res.data.data);
@@ -83,4 +82,4 @@ function CourseSold() {
   );
 }
 
-export default CourseSold;
+export default CourseSoldAdmin;
