@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ListLesson from "~/components/ListLesson";
 import Modal from "~/components/Modal";
+import routes from "~/config/routes";
 
 import * as courseService from "~/services/courseService";
 import * as myCourseService from "~/services/myCourseService";
@@ -10,6 +11,7 @@ import { AuthContext } from "~/shared/AuthProvider";
 
 function DetailCourse() {
   const { id } = useParams();
+  const navigate = useNavigate()
   const { token, role } = useContext(AuthContext);
   const [data, setData] = useState({});
   const [received, setReceived] = useState(false);
@@ -87,7 +89,7 @@ function DetailCourse() {
         fetchPayment(dataCourse);
       }
     } else {
-      navigator(routes.login);
+      navigate(routes.login);
     }
   };
 

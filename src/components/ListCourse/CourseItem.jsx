@@ -66,7 +66,7 @@ function CourseItem({ data, onClickBuy }) {
             </p>
           )}
         </Link>
-       {role === 2 && <div className="flex items-center  justify-between relative">
+        <div className="flex items-center  justify-between relative">
           <span className="text-3xl font-bold text-black">
             {data.price > 0
               ? new Intl.NumberFormat("vi-VN", {
@@ -75,15 +75,17 @@ function CourseItem({ data, onClickBuy }) {
                 }).format(data.price)
               : "Miễn phí"}
           </span>
-          <button
-            onClick={() => {
-              received ? navigate(routes.myCourse) : setShowModal(true);
-            }}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            {received ? "Đã mua" : data.price > 0 ? "Mua" : "Nhận miển phí"}
-          </button>
-        </div>}
+          {role === 2 && (
+            <button
+              onClick={() => {
+                received ? navigate(routes.myCourse) : setShowModal(true);
+              }}
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              {received ? "Đã mua" : data.price > 0 ? "Mua" : "Nhận miển phí"}
+            </button>
+          )}
+        </div>
       </div>
       <Modal
         title="Mua khóa học"
