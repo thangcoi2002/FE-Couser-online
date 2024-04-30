@@ -1,6 +1,7 @@
+import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-function TableCourse({ data, onOpen }) {
+function TableCourse({ data, onOpen, openDetail }) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -9,9 +10,7 @@ function TableCourse({ data, onOpen }) {
             <th scope="col" className="px-6 py-3">
               Tên khóa học
             </th>
-            <th scope="col" className="px-6 py-3 w-1/2">
-              Mô tả
-            </th>
+            <th>Mô tả</th>
             <th scope="col" className="px-6 py-3">
               Số bài học
             </th>
@@ -32,13 +31,12 @@ function TableCourse({ data, onOpen }) {
                 className="bg-white border-b hover:bg-gray-100 "
                 key={item._id}
               >
-                <th
-                  scope="row"
-                  className="px-6 py-4  font-medium text-gray-900  text-nowrap"
-                >
+                <th className="px-6 py-4  font-medium text-gray-900">
                   {item.nameCourse}
                 </th>
-                <td className="px-6 py-4"> {item.description}</td>
+                <td className="px-2 py-4 text-right">
+                  <FaEye className="cursor-pointer" onClick={() => openDetail(item.description)}/>
+                </td>
                 <td className="px-6 py-4">
                   <Link
                     to={`/manager/lesson/${item._id}`}
@@ -47,8 +45,8 @@ function TableCourse({ data, onOpen }) {
                     {item.lesson.length}
                   </Link>
                 </td>
-                <td className="px-6 py-4">
-                  {item.price.toLocaleString("vi-VN")}  
+                <td className="px-6 py-4 text-nowrap">
+                  {item?.price?.toLocaleString("vi-VN") || 0} VNĐ
                 </td>
                 <td className="px-6 py-4">
                   {new Date(item.createdAt).toLocaleDateString("vi-VN")}

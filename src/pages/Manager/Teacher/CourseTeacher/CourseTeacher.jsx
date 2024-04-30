@@ -16,6 +16,7 @@ function CourseTeacher() {
   const [totalPage, setTotalPage] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [getIdModal, setGetIdModal] = useState("");
+  const [body, setBody] = useState("");
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected + 1);
@@ -44,11 +45,17 @@ function CourseTeacher() {
 
   const onClose = () => {
     setShowModal(false);
+    setBody("")
   };
 
   const onOpen = (id) => {
     setShowModal(true);
     setGetIdModal(id);
+  };
+
+  const openDetail = (description) => {
+    setShowModal(true);
+    setBody(description)  
   };
 
   const onDelete = () => {
@@ -83,7 +90,7 @@ function CourseTeacher() {
         </div>
       </div>
 
-      <TableCourse data={data} onOpen={onOpen} />
+      <TableCourse data={data} onOpen={onOpen} openDetail={openDetail}/>
 
       <ReactPaginate
         pageCount={totalPage}
@@ -105,11 +112,12 @@ function CourseTeacher() {
         breakClassName={"my-auto"}
       />
       <Modal
-        title="Delete course"
-        description={"Are you sure to delete the course?"}
+        title={body?"Mô tả khóa học":"Xóa khóa học"}
+        description={"Bạn chắc chắn xóa khóa học?"}
         showModal={showModal}
         onClose={onClose}
         onSubmit={onDelete}
+        body={body}
       />
     </div>
   );
