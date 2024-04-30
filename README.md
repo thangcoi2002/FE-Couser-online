@@ -1,8 +1,27 @@
-# React + Vite
+## Trang chủ
+<img src="./src/assets/img/Home.png">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Danh sách tất cả khóa học
+<img src="./src/assets/img/ListCourse.png">
 
-Currently, two official plugins are available:
+## Chi tiết của khóa học
+<img src="./src/assets/img/DetailCourse.png">
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Danh sách khóa học đã mua
+<img src="./src/assets/img/MyCourse.png">
+
+## Thanh toán tích hợp VNPAY
+<img src="./src/assets/img/PaymentVnpay.png">
+
+## Giao diện thông tin cá nhân
+<img src="./src/assets/img/Profile.png">
+
+## Thay đổi thông tin cá nhân
+<img src="./src/assets/img/EditProfile.png">
+
+## Dashboard của giảng viên
+<img src="./src/assets/img/DashboardTeacher.png">
+
+
+## Giao diện quản lý bài học của khóa học
+<img src="./src/assets/img/Lesson.png">
