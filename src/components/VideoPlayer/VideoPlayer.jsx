@@ -1,15 +1,7 @@
-import React from "react";
+import { useState } from "react";
 import ReactPlayer from "react-player";
 
-function VideoPlayer({ data }) {
-  const handleProgress = (state) => {
-    const percentPlayed = (state.playedSeconds / state.loadedSeconds) * 100;
-
-    if (percentPlayed >= 70) {
-      console.log(true);
-    }
-  };
-
+function VideoPlayer({ data ,handleProgress}) {
   return (
     <ReactPlayer
       playing={false}
