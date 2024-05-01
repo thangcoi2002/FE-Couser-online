@@ -41,9 +41,9 @@ function Bars({ labels, dataBar, title, titleHover }) {
             if (titleHover) {
               const labelHover =
               tooltipItem.dataset.titleHover[tooltipItem.dataIndex];
-              return `${labelHover} : ${priceHover} VNĐ`;
+              return `${labelHover} : ${priceHover.toLocaleString("vi-vn")} VNĐ`;
             }else{
-              return `${priceHover} VNĐ`
+              return `${priceHover.toLocaleString("vi-vn")} VNĐ`
             }
           },
         },

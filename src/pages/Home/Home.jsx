@@ -12,7 +12,7 @@ function Home() {
 
   useEffect(() => {
     courseService
-      .getAllCourse({ perPage: 10 })
+      .getAllCourse({ perPage: 6 })
       .then((course) => {
         setDataCourse(course.data.data);
       })

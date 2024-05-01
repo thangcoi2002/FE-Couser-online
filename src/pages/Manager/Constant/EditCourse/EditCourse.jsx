@@ -10,6 +10,7 @@ function EditCourse() {
     nameCourse: "",
     description: "",
     imageUrl: "",
+    price: 0
   });
   const [image, setImage] = useState("");
 
@@ -36,6 +37,7 @@ function EditCourse() {
     formData.append("nameCourse", data.nameCourse);
     formData.append("description", data.description);
     formData.append("imageUrl", data.imageUrl);
+    formData.append("price", data.price);
 
     await courseService
       .editCourse({ data: formData, id: params.id })
@@ -55,7 +57,8 @@ function EditCourse() {
         setData({
           nameCourse: course.data.nameCourse,
           description: course.data.description,
-          imageUrl: course.data.imageUrl
+          imageUrl: course.data.imageUrl,
+          price: course.data.price
         });
 
         if (course.data.imageUrl) {
@@ -101,6 +104,25 @@ function EditCourse() {
           className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
           Mô tả
+        </label>
+      </div>
+
+      <div className="relative z-0 w-full mb-5 group">
+        <input
+          type="number"
+          name="price"
+          id="price"
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          required
+          onChange={onChange}
+          value={data.price}
+        />
+        <label
+          htmlFor="price"
+          className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        >
+          Giá
         </label>
       </div>
 

@@ -18,7 +18,7 @@ function MyCourseItem({ data }) {
         </div>
         <div className="flex items-center">
           Tiến trình :{" "}
-          {(data.progress.length / data.courseId.lesson.length) * 100} %
+          {(data.progress.length / data.courseId.lesson.length) * 100 || 0} %
         </div>
       </div>
     </Link>
