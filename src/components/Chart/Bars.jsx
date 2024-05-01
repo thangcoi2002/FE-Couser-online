@@ -15,6 +15,7 @@ function Bars({ labels, dataBar, title, titleHover }) {
         borderColor: ["#22c55e"],
         borderWidth: 1,
         titleHover: titleHover,
+        barThickness: 50,
       },
     ],
   };
@@ -40,9 +41,9 @@ function Bars({ labels, dataBar, title, titleHover }) {
             if (titleHover) {
               const labelHover =
               tooltipItem.dataset.titleHover[tooltipItem.dataIndex];
-              return `${labelHover} : ${priceHover}`;
+              return `${labelHover} : ${priceHover} VNĐ`;
             }else{
-              return priceHover
+              return `${priceHover} VNĐ`
             }
           },
         },

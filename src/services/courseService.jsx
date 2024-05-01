@@ -100,3 +100,27 @@ export const getCourseSoldTeacher = ({ page, perPage, nameCourse, id }) => {
     console.log(error);
   }
 };
+
+export const getMonthIncome = ({ teacherId }) => {
+  try {
+    const res = httpRequest.get(`course/month-income`, {
+      headers: { authorization: "Bearer " + localStorage.token },
+      params: { teacherId },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getTopIncome = ({ teacherId }) => {
+  try {
+    const res = httpRequest.get(`course/top-income`, {
+      headers: { authorization: "Bearer " + localStorage.token },
+      params: { teacherId },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

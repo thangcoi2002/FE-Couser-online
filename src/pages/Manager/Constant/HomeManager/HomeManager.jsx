@@ -1,46 +1,70 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Bars from "~/components/Chart/Bars";
 import * as courseService from "~/services/courseService";
+import { AuthContext } from "~/shared/AuthProvider";
 
 function HomeManager() {
-  const labelsMonths = [];
+  const { role, currentUser } = useContext(AuthContext);
+  const [labelsMonths, setLabelsMonths] = useState([]);
   const [titleHover, setTitleHover] = useState();
-  const [dataBar, setDataBar] = useState([123]);
+  const [dataBar, setDataBar] = useState([]);
   const [labelsTopCourse, setLabelsTopCourse] = useState([]);
-  const [dataBarCourse, setDataBarCourse] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-  ]);
-
-  for (var i = 1; i <= 12; i++) {
-    labelsMonths.push(`Tháng ${i}`);
-  }
+  const [dataBarCourse, setDataBarCourse] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await courseService.getAllCourse({ perPage: 10 });
-        const courseData = res.data.data.map(course => course.nameCourse);
-        setTitleHover(courseData);
+    const getIncomeParams = {};
 
-        const labelsArray = Array.from({ length: courseData.length }, (_, index) => `Top ${index + 1}`);
+    if (role === 1 && currentUser._id) {
+      getIncomeParams.teacherId = currentUser._id;
+    }
 
-        setLabelsTopCourse(labelsArray);
-      } catch (error) {
-        console.error("Error fetching course data:", error);
-      }
-    };
+    courseService
+      .getMonthIncome(getIncomeParams)
+      .then((data) => {
+        const filteredDataByMonth = [];
+        const filteredDataBarByMonth = [];
 
-    fetchData();
+        for (let i = 1; i <= 12; i++) {
+          const filteredMonthData = data.data.find(
+            (item) => item.month === `Tháng ${i}`
+          );
+          if (filteredMonthData) {
+            filteredDataByMonth.push(filteredMonthData.month);
+            filteredDataBarByMonth.push(filteredMonthData.income);
+          }
+        }
+
+        setLabelsMonths(filteredDataByMonth);
+        setDataBar(filteredDataBarByMonth);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    courseService
+      .getTopIncome(getIncomeParams)
+      .then((data) => {
+        const topDataLabels = [];
+        const topData = [];
+        const topDataTitleHover = [];
+        for (let i = 0; i < data.data.length; i++) {
+          topDataLabels.push(`Top ${i + 1}`);
+          topData.push(data.data[i].income);
+          topDataTitleHover.push(data.data[i].nameCourse);
+        }
+        setLabelsTopCourse([...topDataLabels]);
+        setDataBarCourse(topData);
+        setTitleHover(topDataTitleHover);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <div className="flex flex-col items-center w-full my-10">
-      <Bars
-        title={"Doanh thu"}
-        labels={labelsMonths}
-        dataBar={dataBar}
-      />
+      <Bars title={"Doanh thu"} labels={labelsMonths} dataBar={dataBar} />
 
       <Bars
         title={"Top 10 khóa học"}
