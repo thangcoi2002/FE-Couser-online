@@ -9,6 +9,7 @@ const routes = {
   myCourse: "/my-course",
   detailCourse: "/course/:id",
   detailLesson: "/lesson/:id",
+  detailTeacher: "/teacher/:id",
 
   login: "/login",
   register: "/register",

@@ -3,9 +3,9 @@ import Modal from "../Modal";
 import LessonItem from "./LessonItem";
 import ClientEmpty from "../ClientEmpty";
 
-function ListLesson({ data = [], onDelete, onOpen, showModal, onClose}) {
+function ListLesson({ data = [], onDelete, onOpen, showModal, onClose,received}) {
   if (data.length == 0) {
-    return <ClientEmpty />;
+    return <ClientEmpty title="Chưa có bài giảng nào!"/>;
   }
 
   return (
@@ -14,8 +14,10 @@ function ListLesson({ data = [], onDelete, onOpen, showModal, onClose}) {
         <LessonItem
           key={item._id}
           data={item}
+          arrayData={data}
           index={index}
           openModal={onOpen}
+          received={received}
         />
       ))}
 

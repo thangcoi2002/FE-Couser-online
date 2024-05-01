@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ListLesson from "~/components/ListLesson";
 import Modal from "~/components/Modal";
 import routes from "~/config/routes";
@@ -11,7 +11,7 @@ import { AuthContext } from "~/shared/AuthProvider";
 
 function DetailCourse() {
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { token, role } = useContext(AuthContext);
   const [data, setData] = useState({});
   const [received, setReceived] = useState(false);
@@ -103,20 +103,28 @@ function DetailCourse() {
   };
 
   return (
-    <div className=" p-10">
-      <div className="flex flex-col sm:flex-row items-center">
-        <div className="w-1/2 flex flex-col justify-center items-center mb-4 sm:mb-0">
-          <p className="text-2xl font-bold mb-4">{data.nameCourse}</p>
-          {!received && (
-            <button
-              className="w-[160px] h-[48px] rounded-md bg-black text-white font-medium "
-              onClick={() => {
-                received ? navigate(routes.myCourse) : setShowModal(true);
-              }}
-            >
-              {data.price > 0 ? "Mua ngay" : "Nhận miễn phí"}
-            </button>
-          )}
+    <div className="p-10">
+      <div className="flex flex-col-reverse sm:flex-row items-center">
+        <div className="w-1/2 flex flex-col justify-center items-center mt-4 sm:mb-0">
+          <p className="text-2xl font-bold">{data.nameCourse}</p>
+          {role === 1 ||
+            (!received && (
+              <>
+                <p className="my-4 text-xl">
+                  {data.price > 0
+                    ? `${data.price.toLocaleString("vi-vn")} VNĐ`
+                    : "Miễn phí"}
+                </p>
+                <button
+                  className="w-[160px] h-[48px] rounded-md bg-black text-white font-medium "
+                  onClick={() => {
+                    received ? navigate(routes.myCourse) : setShowModal(true);
+                  }}
+                >
+                  {data.price > 0 ? "Mua ngay" : "Nhận miễn phí"}
+                </button>
+              </>
+            ))}
         </div>
         <div className="w-full sm:w-1/2 flex justify-center border-l border-neutral-100 items-center">
           <img src={data.imageUrl} alt="" />
@@ -124,10 +132,27 @@ function DetailCourse() {
       </div>
 
       <div className="mt-10">
+        {data.teacherId && (
+          <Link to={`/teacher/${data.teacherId?._id}`}>
+            <div className="inline-flex">
+              <img
+                src={data.teacherId?.imageUrl}
+                alt=""
+                className="w-[100px] h-[100px] rounded-full shadow-xl object-cover"
+              />
+              <div className="m-4">
+                <p className="font-bold ">{data.teacherId.fullName}</p>
+              </div>
+            </div>
+          </Link>
+        )}
+
         <p className="my-4 text-center text-2xl font-bold">Mô tả khóa học</p>
         <p>{data.description}</p>
       </div>
-      {received && <ListLesson data={data.lesson} />}
+
+      <p className="my-4 text-center text-2xl font-bold">Bài giảng</p>
+      <ListLesson data={data.lesson} received={received} />
 
       <Modal
         title="Mua khóa học"

@@ -28,6 +28,7 @@ import PaymentResult from "~/pages/PaymentResult";
 import MyCourse from "~/pages/MyCourse";
 import DetailCourse from "~/pages/DetailCourse";
 import DetailLesson from "~/pages/DetailLesson";
+import DetailTeacher from "~/pages/DetailTeacher";
 
 const publicRoutes = [
   { path: config.routes.home, component: Home },
@@ -39,6 +40,7 @@ const publicRoutes = [
   { path: config.routes.myCourse, component: MyCourse },
   { path: config.routes.detailCourse, component: DetailCourse },
   { path: config.routes.detailLesson, component: DetailLesson },
+  { path: config.routes.detailTeacher, component: DetailTeacher },
 
   { path: config.routes.login, component: Login, Layout: null },
   { path: config.routes.register, component: Register, Layout: null },

@@ -1,11 +1,32 @@
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import routes from "~/config/routes";
+import { AuthContext } from "~/shared/AuthProvider";
 
-function LessonItem({ data, index, openModal }) {
+function LessonItem({ data, arrayData, index, openModal, received }) {
+  const { role, token } = useContext(AuthContext);
   const navigate = useNavigate();
+  let linkNavigate = null;
+
+  if (role === 1) {
+    linkNavigate = () =>
+      navigate(routes.detailLesson.replace(":id", data._id), {
+        state: { arrayData },
+      });
+  } else if (role === 2 && received) {
+    linkNavigate = () =>
+      navigate(routes.detailLesson.replace(":id", data._id), {
+        state: { arrayData },
+      });
+  } else if (!token) {
+    linkNavigate = () => navigate(routes.login);
+  }
 
   return (
-    <Link to={!openModal && `/lesson/${data._id}`} className="flex border my-4 rounded-md overflow-hidden">
+    <button
+      onClick={linkNavigate}
+      className="flex w-full text-left border my-4 rounded-md overflow-hidden"
+    >
       <div className="w-full flex justify-between p-4">
         <div className={`${!openModal ? "w-full" : "w-3/4"}`}>{`${index + 1}. ${
           data.nameLesson
@@ -31,7 +52,7 @@ function LessonItem({ data, index, openModal }) {
           </div>
         )}
       </div>
-    </Link>
+    </button>
   );
 }
 

@@ -40,16 +40,22 @@ function Header() {
 
           <div className="fixed flex justify-between bottom-0 z-10 w-full  sm:hidden bg-white">
             <Link
-              className="w-1/2 flex justify-center py-4 hover:bg-slate-200"
-              to={routes.login}
+              className="w-1/3 flex justify-center py-4 hover:bg-slate-200"
+              to={routes.home}
             >
-              <IoLogIn size={20}/>
+              <FaHome size={18} />
             </Link>
             <Link
-              className="w-1/2 flex justify-center py-4 hover:bg-slate-200"
+              className="w-1/3 flex justify-center py-4 hover:bg-slate-200"
+              to={routes.login}
+            >
+              <IoLogIn size={20} />
+            </Link>
+            <Link
+              className="w-1/3 flex justify-center py-4 hover:bg-slate-200"
               to={routes.register}
             >
-              <FaUserPlus size={20}/>
+              <FaUserPlus size={20} />
             </Link>
           </div>
         </>
