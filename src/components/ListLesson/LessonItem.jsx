@@ -1,12 +1,43 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import routes from "~/config/routes";
 import { AuthContext } from "~/shared/AuthProvider";
+import * as myCourseService from "~/services/myCourseService";
+import { FaCheckCircle } from "react-icons/fa";
 
 function LessonItem({ data, arrayData, index, openModal, received }) {
   const { role, token } = useContext(AuthContext);
   const navigate = useNavigate();
   let linkNavigate = null;
+  const [myCourse, setMyCourse] = useState([]);
+  const [successProgress, setSuccessProgress] = useState(false);
+
+  useEffect(() => {
+    if (token && role === 2) {
+      myCourseService
+        .getMyCourse({})
+        .then((res) => {
+          setMyCourse(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token && role === 2) {
+      myCourse.forEach((item) => {
+        const tracking = item.progress.filter(
+          (progress) => progress === data._id
+        );
+        if (tracking.length > 0) {
+          setSuccessProgress(true);
+        }
+      });
+    }
+  }, [myCourse,token]);
 
   if (role === 1) {
     linkNavigate = () =>
@@ -27,11 +58,9 @@ function LessonItem({ data, arrayData, index, openModal, received }) {
       onClick={linkNavigate}
       className="flex w-full text-left border my-4 rounded-md overflow-hidden"
     >
-      <div className="w-full flex justify-between p-4">
-        <div className={`${!openModal ? "w-full" : "w-3/4"}`}>{`${index + 1}. ${
-          data.nameLesson
-        }`}</div>
-        {openModal && (
+      <div className="w-full flex items-center justify-between p-4">
+        <div>{`${index + 1}. ${data.nameLesson}`}</div>
+        {openModal ? (
           <div className="flex items-center">
             <button
               className="text-blue-500 px-4"
@@ -50,6 +79,8 @@ function LessonItem({ data, arrayData, index, openModal, received }) {
               Xóa
             </button>
           </div>
+        ) : (
+          <p>{successProgress && <FaCheckCircle className="text-primary" />}</p>
         )}
       </div>
     </button>

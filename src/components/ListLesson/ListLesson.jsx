@@ -8,6 +8,7 @@ function ListLesson({ data = [], onDelete, onOpen, showModal, onClose,received})
     return <ClientEmpty title="Chưa có bài giảng nào!"/>;
   }
 
+
   return (
     <>
       {data.map((item, index) => (
