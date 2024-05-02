@@ -14,10 +14,7 @@ function HeaderManager() {
   };
 
   return (
-    <div className="py-3 px-4 border-b flex justify-between items-center">
-      <Link to={routes.home} className="p-2">
-        <FaHome size={30} />
-      </Link>
+    <div className="py-3 px-4 border-b flex justify-end items-center">
       <div className="flex items-center">
         <button
           className="bg-primary text-white px-4 py-2 mr-2 rounded-lg"

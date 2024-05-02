@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "~/shared/AuthProvider";
 
 function TableCourse({ data, onOpen, openDetail }) {
+  const { role } = useContext(AuthContext);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -14,6 +18,11 @@ function TableCourse({ data, onOpen, openDetail }) {
             <th scope="col" className="px-6 py-3">
               Số bài học
             </th>
+            {role === 0 && (
+              <th scope="col" className="px-6 py-3">
+                Giảng viên phụ trách
+              </th>
+            )}
             <th scope="col" className="px-6 py-3">
               Giá tiền
             </th>
@@ -35,7 +44,10 @@ function TableCourse({ data, onOpen, openDetail }) {
                   {item.nameCourse}
                 </th>
                 <td className="px-2 py-4 text-right">
-                  <FaEye className="cursor-pointer" onClick={() => openDetail(item.description)}/>
+                  <FaEye
+                    className="cursor-pointer"
+                    onClick={() => openDetail(item.description)}
+                  />
                 </td>
                 <td className="px-6 py-4">
                   <Link
@@ -45,7 +57,12 @@ function TableCourse({ data, onOpen, openDetail }) {
                     {item.lesson.length}
                   </Link>
                 </td>
-                <td className="px-6 py-4 text-nowrap">
+                {role === 0 && (
+                  <td className="px-6 py-4">
+                    {item.teacherId.fullName}
+                  </td>
+                )}
+                <td className="px-6 py-4 text-nowrap text-primary">
                   {item?.price?.toLocaleString("vi-VN") || 0} VNĐ
                 </td>
                 <td className="px-6 py-4">

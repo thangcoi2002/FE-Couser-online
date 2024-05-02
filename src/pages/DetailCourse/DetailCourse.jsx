@@ -126,7 +126,7 @@ function DetailCourse() {
               </>
             ))}
         </div>
-        <div className="w-full sm:w-1/2 flex justify-center border-l border-neutral-100 items-center">
+        <div className="w-full sm:w-1/2 flex justify-center border-l border-neutral-200 items-center">
           <img src={data.imageUrl} alt="" />
         </div>
       </div>
@@ -140,8 +140,9 @@ function DetailCourse() {
                 alt=""
                 className="w-[100px] h-[100px] rounded-full shadow-xl object-cover"
               />
-              <div className="m-4">
+              <div className="mx-4 mt-4">
                 <p className="font-bold ">{data.teacherId.fullName}</p>
+                <p className="text-gray-500">{data.teacherId.address}</p> 
               </div>
             </div>
           </Link>

@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <div>
-      <div className="lg:flex items-center justify-center py-20 bg-gradient-to-br from-green-700 to-primary select-none mb-10">
+      <div className="lg:flex items-center justify-center py-20 bg-gradient-to-br from-green-700 to-primary select-none">
         <div className="lg:w-1/2 px-6 md:px-28 text-white font-semibold">
           &nbsp; &nbsp; &nbsp; Chào mừng đến với {title}!
           <br />
@@ -58,6 +58,7 @@ function Home() {
           />
         </div>
       </div>
+      <p className="my-10 text-center font-bold text-2xl">Khóa học miễn phí</p>
       <ListCourse data={dataCourse} />
 
       <div className="w-full flex justify-center">

@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "~/shared/AuthProvider";
 
-function TableCourseSold({ data, onOpen, openDetail }) {
+function TableCourseSold({ data }) {
+  const { role } = useContext(AuthContext);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -13,6 +17,9 @@ function TableCourseSold({ data, onOpen, openDetail }) {
             <th scope="col" className="px-6 py-3">
               Nguời mua
             </th>
+            {role === 0 && <th scope="col" className="px-6 py-3">
+              Giảng viên phụ trách
+            </th>}
             <th scope="col" className="px-6 py-3">
               Tiến trình
             </th>
@@ -20,7 +27,7 @@ function TableCourseSold({ data, onOpen, openDetail }) {
               Giá tiền
             </th>
             <th scope="col" className="px-6 py-3">
-              Ngày tạo
+              Ngày mua
             </th>
           </tr>
         </thead>
@@ -34,11 +41,18 @@ function TableCourseSold({ data, onOpen, openDetail }) {
                 <th className="px-6 py-4  font-medium text-gray-900">
                   {item.nameCourse}
                 </th>
+                {role === 0 && (
+                  <th className="px-6 py-4  font-medium text-gray-900 text-nowrap">
+                    {item.studentId.fullName}
+                  </th>
+                )}
                 <th className="px-6 py-4  font-medium text-gray-900 text-nowrap">
-                  {item.studentId.fullName}
+                  {item.teacherId.fullName}
                 </th>
                 <td className="px-6 py-4">
-                  {(item.progress.length / item.courseId.lesson.length) * 100 || 0} %
+                  {(item.progress.length / item.courseId.lesson.length) * 100 ||
+                    0}{" "}
+                  %
                 </td>
                 <td className="px-6 py-4 text-nowrap">
                   {item.courseId?.price?.toLocaleString("vi-VN") || 0} VNĐ

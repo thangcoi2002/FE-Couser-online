@@ -45,7 +45,7 @@ function CourseItem({ data, onClickBuy }) {
   };
 
   return (
-    <div className="w-full max-w-sm bg-gradient-to-br from-green-200 to-green-100 border border-gray-100 rounded-lg shadow-2xl">
+    <div className="w-full max-w-sm bg-gradient-to-br from-green-200 to-green-100 border border-gray-100 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105">
       <div className="h-[250px] overflow-hidden">
         <Link to={`/course/${data._id}`}>
           <img
