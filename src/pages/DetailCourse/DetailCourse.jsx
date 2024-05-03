@@ -18,7 +18,7 @@ import { FaUserCircle } from "react-icons/fa";
 function DetailCourse() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token, role,currentUser } = useContext(AuthContext);
+  const { token, role, currentUser } = useContext(AuthContext);
   const [data, setData] = useState({});
   const [getRate, setGetRate] = useState([]);
   const [received, setReceived] = useState(false);
@@ -123,20 +123,25 @@ function DetailCourse() {
   const fetchData = useCallback(() => {
     rateCourseService.getRate({ courseId: id }).then((rateCourse) => {
       setGetRate(rateCourse.data);
-      const checkHaveRate = rateCourse.data.filter(filter => filter.studentId._id === currentUser._id)
+      const checkHaveRate = rateCourse.data.filter(
+        (filter) => filter.studentId._id === currentUser._id
+      );
       setShowModalRate(false);
-      if(checkHaveRate.length > 0){
-      setHaveRate(false)
-     }
-    });
-  }, [id,currentUser]);
-
-  const onSentRate = () => {
-    rateCourseService.sentRate({ courseId: id,data: dataRate }).then((rateCourse) => {
-      if(rateCourse.status === 200){
-        fetchData();
+      if (checkHaveRate.length > 0) {
+        setHaveRate(false);
       }
     });
+  }, [id, currentUser]);
+
+  const onSentRate = (e) => {
+    e.preventDefault();
+    rateCourseService
+      .sentRate({ courseId: id, data: dataRate })
+      .then((rateCourse) => {
+        if (rateCourse.status === 200) {
+          fetchData();
+        }
+      });
   };
 
   useEffect(() => {
@@ -201,11 +206,13 @@ function DetailCourse() {
             </Link>
           )}
 
-         {haveRate&&  <MdRateReview
-            onClick={onShowRate}
-            className="cursor-pointer"
-            size={30}
-          />}
+          {haveRate && (
+            <MdRateReview
+              onClick={onShowRate}
+              className="cursor-pointer"
+              size={30}
+            />
+          )}
         </div>
 
         <p className="my-4 text-center text-2xl font-bold">Mô tả khóa học</p>
@@ -216,29 +223,36 @@ function DetailCourse() {
       <ListLesson data={data.lesson} received={received} />
 
       <p className="my-4 font-bold">Đánh giá của người mua</p>
-      {getRate.length > 0 ? getRate.map((item) => (
-        <div key={item._id} className="flex justify-between mt-4 p-2 border rounded-2xl">
-          <div className="flex">
-            {item?.studentId?.imageUrl ? (
-              <img
-                src={item.studentId.imageUrl}
-                alt="avatar"
-                className="w-[50px] h-[50px] rounded-full object-cover object-top"
-              />
-            ) : (
-              <FaUserCircle size={32} />
-            )}
-            <div className="px-2">
-              <p>{item?.studentId?.fullName}</p>
-              <p>{item?.comment}</p>
+      {getRate.length > 0 ? (
+        getRate.map((item) => (
+          <div
+            key={item._id}
+            className="flex justify-between mt-4 p-2 border rounded-2xl"
+          >
+            <div className="flex items-center">
+              {item?.studentId?.imageUrl ? (
+                <img
+                  src={item.studentId.imageUrl}
+                  alt="avatar"
+                  className="w-[50px] h-[50px] rounded-full object-cover object-top"
+                />
+              ) : (
+                <FaUserCircle size={32} />
+              )}
+              <div className="px-2">
+                <p>{item?.studentId?.fullName}</p>
+                <p>{item?.comment}</p>
+              </div>
+            </div>
+
+            <div>
+              <StarRating totalStars={5} dataRate={item.rate} />
             </div>
           </div>
-
-          <div>
-            <StarRating totalStars={5} dataRate={item.rate} />
-          </div>
-        </div>
-      )): <p className="text-center">Chưa có lượt đánh giá nào</p>}
+        ))
+      ) : (
+        <p className="text-center">Chưa có lượt đánh giá nào</p>
+      )}
 
       <Modal
         title="Mua khóa học"
@@ -249,7 +263,10 @@ function DetailCourse() {
       />
 
       {showModalRate && (
-        <form onSubmit={onSentRate} className="bg-black/40 flex justify-center items-center fixed inset-0 z-50">
+        <form
+          onSubmit={onSentRate}
+          className="bg-black/40 flex justify-center items-center fixed inset-0 z-50"
+        >
           <div className="bg-white rounded-lg w-[400px] px-4 py-4">
             <div className="flex justify-between">
               <p className="mb-4">Đánh giá khóa học</p>
