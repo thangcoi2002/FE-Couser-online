@@ -1,32 +1,34 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { MdRateReview } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ListLesson from "~/components/ListLesson";
 import Modal from "~/components/Modal";
+import StarRating from "~/components/StarRating";
+import TextInput from "~/components/TextInput";
 import routes from "~/config/routes";
 
+import { AuthContext } from "~/shared/AuthProvider";
 import * as courseService from "~/services/courseService";
+import * as rateCourseService from "~/services/rateCourseService";
 import * as myCourseService from "~/services/myCourseService";
 import * as paymentService from "~/services/paymentService";
-import { AuthContext } from "~/shared/AuthProvider";
+import { FaUserCircle } from "react-icons/fa";
 
 function DetailCourse() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token, role } = useContext(AuthContext);
+  const { token, role,currentUser } = useContext(AuthContext);
   const [data, setData] = useState({});
+  const [getRate, setGetRate] = useState([]);
   const [received, setReceived] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    courseService
-      .getCourseById({ id })
-      .then((course) => {
-        setData(course.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [id]);
+  const [showModalRate, setShowModalRate] = useState(false);
+  const [haveRate, setHaveRate] = useState(true);
+  const [dataRate, setDataRate] = useState({
+    comment: "",
+    rate: 1,
+  });
 
   useEffect(() => {
     if (token) {
@@ -94,13 +96,63 @@ function DetailCourse() {
   };
 
   const onClose = () => {
+    setShowModalRate(false);
     setShowModal(false);
+    setDataRate({ comment: "", rate: 0 });
   };
 
   const onSubmit = () => {
     setShowModal(false);
     onClickBuy(data);
   };
+
+  const onChange = (event) => {
+    const newData = { ...dataRate };
+    newData[event.target.name] = event.target.value;
+    setDataRate(newData);
+  };
+
+  const onShowRate = () => {
+    setShowModalRate(true);
+  };
+
+  const handleStarClick = (star) => {
+    setDataRate({ ...dataRate, rate: star });
+  };
+
+  const fetchData = useCallback(() => {
+    rateCourseService.getRate({ courseId: id }).then((rateCourse) => {
+      setGetRate(rateCourse.data);
+      const checkHaveRate = rateCourse.data.filter(filter => filter.studentId._id === currentUser._id)
+      setShowModalRate(false);
+      if(checkHaveRate.length > 0){
+      setHaveRate(false)
+     }
+    });
+  }, [id,currentUser]);
+
+  const onSentRate = () => {
+    rateCourseService.sentRate({ courseId: id,data: dataRate }).then((rateCourse) => {
+      if(rateCourse.status === 200){
+        fetchData();
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    courseService
+      .getCourseById({ id })
+      .then((course) => {
+        setData(course.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
 
   return (
     <div className="p-10">
@@ -132,21 +184,29 @@ function DetailCourse() {
       </div>
 
       <div className="mt-10">
-        {data.teacherId && (
-          <Link to={`/teacher/${data.teacherId?._id}`}>
-            <div className="inline-flex">
-              <img
-                src={data.teacherId?.imageUrl}
-                alt=""
-                className="w-[100px] h-[100px] rounded-full shadow-xl object-cover"
-              />
-              <div className="mx-4 mt-4">
-                <p className="font-bold ">{data.teacherId.fullName}</p>
-                <p className="text-gray-500">{data.teacherId.address}</p> 
+        <div className="flex justify-between items-center">
+          {data.teacherId && (
+            <Link to={`/teacher/${data.teacherId?._id}`}>
+              <div className="inline-flex">
+                <img
+                  src={data.teacherId?.imageUrl}
+                  alt=""
+                  className="w-[100px] h-[100px] rounded-full shadow-xl object-cover"
+                />
+                <div className="mx-4 mt-4">
+                  <p className="font-bold ">{data.teacherId.fullName}</p>
+                  <p className="text-gray-500">{data.teacherId.address}</p>
+                </div>
               </div>
-            </div>
-          </Link>
-        )}
+            </Link>
+          )}
+
+         {haveRate&&  <MdRateReview
+            onClick={onShowRate}
+            className="cursor-pointer"
+            size={30}
+          />}
+        </div>
 
         <p className="my-4 text-center text-2xl font-bold">Mô tả khóa học</p>
         <p>{data.description}</p>
@@ -155,6 +215,31 @@ function DetailCourse() {
       <p className="my-4 text-center text-2xl font-bold">Bài giảng</p>
       <ListLesson data={data.lesson} received={received} />
 
+      <p className="my-4 font-bold">Đánh giá của người mua</p>
+      {getRate.length > 0 ? getRate.map((item) => (
+        <div key={item._id} className="flex justify-between mt-4 p-2 border rounded-2xl">
+          <div className="flex">
+            {item?.studentId?.imageUrl ? (
+              <img
+                src={item.studentId.imageUrl}
+                alt="avatar"
+                className="w-[50px] h-[50px] rounded-full object-cover object-top"
+              />
+            ) : (
+              <FaUserCircle size={32} />
+            )}
+            <div className="px-2">
+              <p>{item?.studentId?.fullName}</p>
+              <p>{item?.comment}</p>
+            </div>
+          </div>
+
+          <div>
+            <StarRating totalStars={5} dataRate={item.rate} />
+          </div>
+        </div>
+      )): <p className="text-center">Chưa có lượt đánh giá nào</p>}
+
       <Modal
         title="Mua khóa học"
         description={"Bạn chắc chắn mua khoa học này?"}
@@ -162,6 +247,42 @@ function DetailCourse() {
         onClose={onClose}
         onSubmit={onSubmit}
       />
+
+      {showModalRate && (
+        <form onSubmit={onSentRate} className="bg-black/40 flex justify-center items-center fixed inset-0 z-50">
+          <div className="bg-white rounded-lg w-[400px] px-4 py-4">
+            <div className="flex justify-between">
+              <p className="mb-4">Đánh giá khóa học</p>
+              <IoIosCloseCircleOutline
+                className="cursor-pointer"
+                size={20}
+                onClick={onClose}
+              />
+            </div>
+            <StarRating
+              totalStars={5}
+              handleStarClick={handleStarClick}
+              dataRate={dataRate.rate}
+            />
+            <TextInput
+              title="Bình luận"
+              value={dataRate.comment}
+              name="comment"
+              onChange={onChange}
+              type="text"
+            />
+
+            <div className="w-full flex mt-4">
+              <button className="text-red-600 w-1/2 mr-2" onClick={onClose}>
+                Hủy
+              </button>
+              <button className="text-primary w-1/2" type="submit">
+                Gửi đánh giá
+              </button>
+            </div>
+          </div>
+        </form>
+      )}
     </div>
   );
 }
