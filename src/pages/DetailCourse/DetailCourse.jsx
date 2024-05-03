@@ -206,7 +206,7 @@ function DetailCourse() {
             </Link>
           )}
 
-          {haveRate && (
+          {(token && role === 2) &&haveRate && (
             <MdRateReview
               onClick={onShowRate}
               className="cursor-pointer"
