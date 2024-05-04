@@ -45,7 +45,7 @@ function SideBar() {
   const { role } = useContext(AuthContext);
   let sideBarItem = SIDEBAR_TEACHER;
 
-  if (role === 0) {
+  if (role !== 1) {
     sideBarItem = SIDEBAR_ADMIN;
   }
 

@@ -142,7 +142,7 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   useEffect(() => {
-    if (role === 0 && location.pathname === routes.home) {
+    if ((role === 0 || role === 3) && location.pathname === routes.home) {
      navigate(routes.homeManager);
     }
   },[location,navigate,role])

@@ -7,7 +7,7 @@ import routes from "~/config/routes";
 import * as LessonService from "~/services/lessonService";
 
 function EditLesson() {
-  const { id } = useParams();
+  const { id ,role } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -52,14 +52,14 @@ function EditLesson() {
       />
 
       <div className="flex flex-col md:flex-row">
-        <button
+        {role === 0 && <button
           className="w-full md:mr-2 bg-primary text-center text-white py-4 rounded"
           onClick={() =>
             navigate(routes.handleLesson, { state: { status: "Add" ,courseId: id} })
           }
         >
           Thêm bài học
-        </button>
+        </button>}
         <button
           onClick={() => navigate(-1)}
           className="w-full mt-4 md:mt-0 bg-red-500 text-center text-white py-4 rounded"

@@ -60,7 +60,7 @@ function LessonItem({ data, arrayData, index, openModal, received }) {
     >
       <div className="w-full flex items-center justify-between p-4">
         <div>{`${index + 1}. ${data.nameLesson}`}</div>
-        {openModal ? (
+        {openModal && role === 0 ? (
           <div className="flex items-center">
             <button
               className="text-blue-500 px-4"
