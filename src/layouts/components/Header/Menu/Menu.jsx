@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { FaBook, FaHome, FaUserCircle } from "react-icons/fa";
+import { FaBook, FaHome, FaRegNewspaper, FaUserCircle } from "react-icons/fa";
 
 import ListItem from "./ListItem";
 import routes from "~/config/routes";
@@ -36,7 +36,14 @@ function Menu() {
       link: () => {
         navigate(routes.myCourse);
       },
-      icon: <FaBook size={18} className="mr-0 sm:mr-4 text-sky-500" />,
+      icon: <FaBook size={18} className="mr-0 sm:mr-4" />,
+    },
+    {
+      title: "Thông tin tuyển việc",
+      link: () => {
+        navigate(routes.listRecruitment);
+      },
+      icon: <FaRegNewspaper size={18} className="mr-0 sm:mr-4 text-sky-500" />,
     },
     ...MENU_ITEM,
   ];
@@ -69,7 +76,7 @@ function Menu() {
           )}
         </button>
         {isOpen && (
-          <div className="absolute min-w-[180px] right-0 border rounded-md bg-white z-10">
+          <div className="absolute min-w-[200px] right-0 border rounded-md bg-white z-10">
             {MENU.map((data) => (
               <ListItem key={data.title} data={data} />
             ))}

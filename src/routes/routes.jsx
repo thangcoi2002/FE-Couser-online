@@ -22,6 +22,10 @@ import {
   CourseTeacher,
   CourseSold,
   CourseSoldAdmin,
+  NewRecruitment,
+  Recruitment,
+  ListApplyRecruitment,
+  EditRecruitment
 } from "~/pages/Manager";
 import AllCourse from "~/pages/AllCourse";
 import PaymentResult from "~/pages/PaymentResult";
@@ -29,6 +33,7 @@ import MyCourse from "~/pages/MyCourse";
 import DetailCourse from "~/pages/DetailCourse";
 import DetailLesson from "~/pages/DetailLesson";
 import DetailTeacher from "~/pages/DetailTeacher";
+import ListRecruitment from "~/pages/ListRecruitment";
 
 const publicRoutes = [
   { path: config.routes.home, component: Home },
@@ -41,6 +46,7 @@ const publicRoutes = [
   { path: config.routes.detailCourse, component: DetailCourse },
   { path: config.routes.detailLesson, component: DetailLesson },
   { path: config.routes.detailTeacher, component: DetailTeacher },
+  { path: config.routes.listRecruitment, component: ListRecruitment },
 
   { path: config.routes.login, component: Login, Layout: null },
   { path: config.routes.register, component: Register, Layout: null },
@@ -106,6 +112,28 @@ const publicRoutes = [
     component: CourseSold,
     Layout: ManagerLayout,
   },
+
+    // Teacher manager
+    {
+      path: config.routes.newRecruitment,
+      component: NewRecruitment,
+      Layout: ManagerLayout,
+    },
+    {
+      path: config.routes.recruitment,
+      component: Recruitment,
+      Layout: ManagerLayout,
+    },
+    {
+      path: config.routes.applyRecruitment,
+      component: ListApplyRecruitment,
+      Layout: ManagerLayout,
+    },
+    {
+      path: config.routes.editRecruitment,
+      component: EditRecruitment,
+      Layout: ManagerLayout,
+    }
 ];
 
 const privateRoutes = [];

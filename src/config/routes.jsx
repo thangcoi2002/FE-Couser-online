@@ -10,6 +10,7 @@ const routes = {
   detailCourse: "/course/:id",
   detailLesson: "/lesson/:id",
   detailTeacher: "/teacher/:id",
+  listRecruitment: "/list-recruitment",
 
   login: "/login",
   register: "/register",
@@ -30,7 +31,13 @@ const routes = {
   // Teacher
   newCourse: "/manager/teacher/new-course",
   courseTeacher: "/manager/teacher/course",
-  courseSold: "/manager/teacher/course-sold"
+  courseSold: "/manager/teacher/course-sold",
+
+  //Bussiness
+  newRecruitment: "/business/new-recruitment",
+  recruitment: "/business/recruitment",
+  applyRecruitment: "/business/apply-recruitment",
+  editRecruitment: "/business/edit/:id"
 };
 
 export default routes;

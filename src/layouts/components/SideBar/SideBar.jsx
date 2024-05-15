@@ -18,6 +18,25 @@ const SIDEBAR_TEACHER = [
   },
 ];
 
+const SIDEBAR_BUSSINESS = [
+  {
+    title: "Trang chủ",
+    link: routes.homeManager,
+  },
+  {
+    title: "Khóa học đã bán",
+    link: routes.courseSoldAdmin,
+  },
+  {
+    title: "Thông tin tuyển dụng",
+    link: routes.recruitment,
+  },
+  {
+    title: "Danh sách ứng tuyển",
+    link: routes.applyRecruitment,
+  }
+];
+
 const SIDEBAR_ADMIN = [
   {
     title: "Trang chủ",
@@ -45,8 +64,10 @@ function SideBar() {
   const { role } = useContext(AuthContext);
   let sideBarItem = SIDEBAR_TEACHER;
 
-  if (role !== 1) {
+  if (role === 0) {
     sideBarItem = SIDEBAR_ADMIN;
+  } else if (role === 3) {
+    sideBarItem = SIDEBAR_BUSSINESS;
   }
 
   return (
