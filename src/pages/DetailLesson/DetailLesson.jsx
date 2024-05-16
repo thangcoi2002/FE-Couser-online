@@ -68,7 +68,7 @@ function DetailLesson() {
   return (
     <div className="px-4">
       <div className="text-center font-bold">{data.nameLesson}</div>
-      <div className="flex justify-center mt-4">
+      <div className="flex md:flex-row flex-col items-center justify-center mt-4">
         <VideoPlayer data={data.videoUrl} handleProgress={handleProgress} />
 
         <div className="w-full md:w-3/12 px-10 flex flex-col">
