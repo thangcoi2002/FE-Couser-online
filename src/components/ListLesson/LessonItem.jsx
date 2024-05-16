@@ -38,7 +38,7 @@ function LessonItem({ data, arrayData, index, openModal, received }) {
       });
     }
   }, [myCourse, token]);
-
+  
   if (role === 1) {
     linkNavigate = () =>
       navigate(routes.detailLesson.replace(":id", data._id), {

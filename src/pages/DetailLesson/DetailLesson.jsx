@@ -16,6 +16,7 @@ function DetailLesson() {
   const [data, setData] = useState({});
   const [reachedSeventyPercent, setReachedSeventyPercent] = useState(false);
   const [dataHomework, setDataHomework] = useState({});
+  const [received, setReceived] = useState(false);
 
   const handleProgress = (state) => {
     if (!reachedSeventyPercent) {
@@ -54,6 +55,24 @@ function DetailLesson() {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    myCourseService
+      .getMyCourse({})
+      .then((course) => {
+        const checkPurchased = course.data.filter(
+          (item) => item.courseId._id === data.courseId
+        );
+        if (checkPurchased.length > 0) {
+          setReceived(true);
+        } else {
+          setReceived(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [data]);
 
   useEffect(() => {
     if (reachedSeventyPercent) {
@@ -122,7 +141,7 @@ function DetailLesson() {
           )}
         </div>
       </div>
-      <ListLesson data={arrayData} />
+      <ListLesson data={arrayData} received={received}/>
     </div>
   );
 }
