@@ -26,6 +26,13 @@ function Header() {
         ))}
       </div>
 
+      <Link
+        className="w-1/12 flex justify-center py-4 hover:bg-slate-200"
+        to={routes.home}
+      >
+        <FaHome size={18} />
+      </Link>
+
       <SearchInput />
 
       {token ? (
@@ -50,15 +57,9 @@ function Header() {
           <div className="fixed flex justify-between bottom-0 z-10 w-full  sm:hidden bg-white">
             <Link
               className="w-1/4 flex justify-center py-4 hover:bg-slate-200"
-              to={routes.home}
-            >
-              <FaHome size={18} />
-            </Link>
-            <Link
-              className="w-1/4 flex justify-center py-4 hover:bg-slate-200"
               to={routes.listRecruitment}
             >
-              <FaRegNewspaper  size={18} />
+              <FaRegNewspaper size={18} />
             </Link>
             <Link
               className="w-1/4 flex justify-center py-4 hover:bg-slate-200"

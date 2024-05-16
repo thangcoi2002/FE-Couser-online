@@ -6,6 +6,7 @@ import { FaEye } from "react-icons/fa";
 
 import * as recruitmentService from "~/services/recruitmentService";
 import { AuthContext } from "~/shared/AuthProvider";
+import ModalUserApply from "./ModalUserApply";
 import Modal from "~/components/Modal";
 
 function Recruitment() {
@@ -18,6 +19,9 @@ function Recruitment() {
   const [showModal, setShowModal] = useState(false);
   const [getIdModal, setGetIdModal] = useState("");
   const [body, setBody] = useState("");
+
+  const [showModalApply, setShowModalApply] = useState(false);
+  const [dataUserApply, setDataUserApply] = useState([]);
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected + 1);
@@ -43,7 +47,9 @@ function Recruitment() {
 
   const onClose = () => {
     setShowModal(false);
+    setShowModalApply(false);
     setBody("");
+    setShowModalApply("");
   };
 
   const onOpen = (id) => {
@@ -56,16 +62,37 @@ function Recruitment() {
     setBody(<div dangerouslySetInnerHTML={{ __html: description }} />);
   };
 
+  const openModalApply = (data) => {
+    setShowModalApply(true);
+    setDataUserApply(data);
+  };
+
   const onSubmit = () => {
-      recruitmentService
-        .deleteRecruitment({ id: getIdModal })
-        .then((res) => {
-          if (res.status === 200) {
-            fetch();
-            setShowModal(false);
-          }
-        })
-        .catch((error) => console.log(error));
+    setBody("");
+    recruitmentService
+      .deleteRecruitment({ id: getIdModal })
+      .then((res) => {
+        if (res.status === 200) {
+          fetch();
+          setShowModal(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleApply = ({ userId, recruitmentId, status }) => {
+    const dataApply = {
+      userId,
+      recruitmentId,
+      status,
+    };
+    recruitmentService
+      .handleApplyCV(dataApply)
+      .then((res) => {
+        setDataUserApply(res.data);
+        fetch();
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -120,7 +147,21 @@ function Recruitment() {
                       onClick={() => openDetail(item.description)}
                     />
                   </td>
-                  <td className="px-6 py-4 text-nowrap">0 / {item.quantity}</td>
+                  <td className="px-6 py-4 text-nowrap ">
+                    <button
+                      onClick={() =>
+                        item.studentApply.filter((apply) => apply.status === 1)
+                          .length !== item.quantity && openModalApply(item)
+                      }
+                      className="underline text-blue-600"
+                    >
+                      {
+                        item.studentApply.filter((apply) => apply.status === 1)
+                          .length
+                      }{" "}
+                      / {item.quantity}
+                    </button>
+                  </td>
                   <td className="px-6 py-4">
                     {new Date(item.createdAt).toLocaleDateString("vi-VN")}
                   </td>
@@ -128,7 +169,7 @@ function Recruitment() {
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() =>
-                          navigate(`/business/edit/${item._id}`, {
+                          navigate(`/manager/edit/${item._id}`, {
                             state: { data: item },
                           })
                         }
@@ -181,37 +222,21 @@ function Recruitment() {
         breakClassName={"my-auto"}
       />
 
-      {showModal && (
-        <div className="fixed inset-0 overflow-x-auto overflow-y-auto bg-gray-600/50 flex justify-center items-center">
-          <div className="md:w-8/12 md:mx-0 mx-4 bg-white px-4 rounded-xl">
-            <div className="pl-4 flex justify-between items-center border-b">
-              <p>{body ? "Mô tả tuyển dụng" : "Xóa bài tuyển"}</p>
-              <IoIosClose
-                className="p-4 cursor-pointer hover:rotate-90 transition"
-                size={55}
-                onClick={onClose}
-              />
-            </div>
-            <div className="py-4">
-              {body ? body : "Bạn có chắc xóa bài đăng này"}
-            </div>
-              <div className="flex justify-end border-t py-2">
-                <button
-                  onClick={onClose}
-                  className="p-2 border border-primary text-gray-600 hover:text-gray-900"
-                >
-                  Đóng
-                </button>
-                {!body &&<button
-                  onClick={onSubmit}
-                  className="p-2 text-red-600 hover:text-red-900"
-                >
-                  Xóa
-                </button>}
-              </div>
-            </div>
-        </div>
-      )}
+      <Modal
+        title={body ? "Mô tả tuyển dụng" : "Bạn có chắc xóa bài đăng này"}
+        onClose={onClose}
+        showModal={showModal}
+        onSubmit={onSubmit}
+        description={"Bạn có chắc xóa bài đăng này"}
+        body={body}
+      />
+
+      <ModalUserApply
+        show={showModalApply}
+        data={dataUserApply}
+        onClose={onClose}
+        handleApply={handleApply}
+      />
     </div>
   );
 }

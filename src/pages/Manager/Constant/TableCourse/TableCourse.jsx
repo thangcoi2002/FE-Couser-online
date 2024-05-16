@@ -86,7 +86,7 @@ function TableCourse({ data, onOpen, openDetail }) {
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center py-4">
+              <td colSpan={6} className="text-center py-4">
                 There is no data
               </td>
             </tr>

@@ -1,57 +1,43 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
-import { Link } from "react-router-dom";
-import { FaEye } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
-import * as recruitmentService from "~/services/recruitmentService";
 import { AuthContext } from "~/shared/AuthProvider";
-import Modal from "~/components/Modal";
+import { getAllLesson } from "~/services/lessonService";
+import routes from "~/config/routes";
 
-function Recruitment() {
-  const { role } = useContext(AuthContext);
+function Assignment() {
+  const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
-  const [nameRecruitment, setNameRecruitment] = useState(null);
+  const [nameCourse, setNameCourse] = useState(null);
   const [totalPage, setTotalPage] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [getIdModal, setGetIdModal] = useState("");
-  const [body, setBody] = useState("");
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected + 1);
   };
 
   const onChange = (e) => {
-    setNameRecruitment(e.target.value);
+    setNameCourse(e.target.value);
   };
 
   const fetch = useCallback(() => {
-    recruitmentService
-      .getAllRecruitment({})
-      .then((recruitment) => {
-        setData(recruitment.data);
-        setTotalPage(recruitment.totalPages);
+    getAllLesson({
+      page: currentPage,
+      perPage: 5,
+      nameLesson: nameCourse,
+      teacherId: currentUser._id,
+    })
+      .then((course) => {
+        setData(course.data.data);
+        setTotalPage(course.data.totalPages);
       })
-      .catch((error) => console.log(error));
-  }, [currentPage, nameRecruitment]);
-
-  const onClose = () => {
-    setShowModal(false);
-    setBody("");
-  };
-
-  const onOpen = (id) => {
-    setShowModal(true);
-    setGetIdModal(id);
-  };
-
-  const openDetail = (description) => {
-    setShowModal(true);
-    setBody(<div dangerouslySetInnerHTML={{ __html: description }} />);
-  };
-
-  const onDelete = () => {};
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [currentPage, nameCourse]);
 
   useEffect(() => {
     fetch();
@@ -65,8 +51,8 @@ function Recruitment() {
             placeholder="Tìm kiếm tên khóa học..."
             className="w-full pl-4 outline-none p-2"
             onChange={onChange}
-            value={nameRecruitment || ""}
-            name="nameRecruitment"
+            value={nameCourse || ""}
+            name="nameCourse"
           />
         </div>
       </div>
@@ -78,9 +64,8 @@ function Recruitment() {
               <th scope="col" className="px-6 py-3">
                 Tên khóa học
               </th>
-              <th>Mô tả</th>
               <th scope="col" className="px-6 py-3">
-                Số lượng tuyển dụng
+                Bài tập đã nộp
               </th>
               <th scope="col" className="px-6 py-3">
                 Ngày tạo
@@ -95,15 +80,20 @@ function Recruitment() {
                   key={item._id}
                 >
                   <th className="px-6 py-4  font-medium text-gray-900">
-                    {item.nameRecruitment}
+                    {item.nameLesson}
                   </th>
-                  <td className="px-2 py-4 text-right">
-                    <FaEye
-                      className="cursor-pointer"
-                      onClick={() => openDetail(item.description)}
-                    />
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() =>
+                        navigate(routes.handleAssignment, {
+                          state: { data: item },
+                        })
+                      }
+                      className="text-blue-500 underline"
+                    >
+                      {item.assignments.length}
+                    </button>
                   </td>
-                  <td className="px-6 py-4 text-nowrap">0 / {item.quantity}</td>
                   <td className="px-6 py-4">
                     {new Date(item.createdAt).toLocaleDateString("vi-VN")}
                   </td>
@@ -139,16 +129,8 @@ function Recruitment() {
         breakLinkClassName={"p-3"}
         breakClassName={"my-auto"}
       />
-      <Modal
-        title={body ? "Mô tả khóa học" : "Xóa khóa học"}
-        description={"Bạn chắc chắn xóa khóa học?"}
-        showModal={showModal}
-        onClose={onClose}
-        onSubmit={onDelete}
-        body={body}
-      />
     </div>
   );
 }
 
-export default Recruitment;
+export default Assignment;

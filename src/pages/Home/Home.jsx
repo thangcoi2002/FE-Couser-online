@@ -3,24 +3,24 @@ import { Link } from "react-router-dom";
 
 import ListCourse from "~/components/ListCourse";
 import routes from "~/config/routes";
-import * as courseService from "~/services/courseService";
 import LogoWeb from "~/assets/img/LogoWeb.png";
 import VideoTrend from "~/components/VideoTrend";
+import { getCourseFree, getCoursePrice } from "~/services/courseService";
 
 const dataVideo = [
   {
     title: "Lập Trình JavaScript Cơ Bản",
-    url: "https://firebasestorage.googleapis.com/v0/b/course-eb7fe.appspot.com/o/17142245151451.png?alt=media&token=8c0cda37-2e81-4afb-a7cc-d02debc066b5",
+    url: "https://firebasestorage.googleapis.com/v0/b/course-eb7fe.appspot.com/o/1.png?alt=media&token=9e73e111-b7fe-4da4-8e91-2c8d13babc82",
     href: "https://www.youtube.com/watch?v=0SJE9dYdpps&list=PL_-VfJajZj0VgpFpEVFzS5Z-lkXtBe-x5",
   },
   {
     title: "HTML CSS từ Zero đến Hero",
-    url: "https://firebasestorage.googleapis.com/v0/b/course-eb7fe.appspot.com/o/17142261420102.png?alt=media&token=03513ae1-fb1d-48fa-a3ef-2ef7493b071b",
+    url: "https://firebasestorage.googleapis.com/v0/b/course-eb7fe.appspot.com/o/2.png?alt=media&token=8fd87eef-e74a-4119-be81-d85e6e7aa68e",
     href: "https://www.youtube.com/watch?v=R6plN3FvzFY&list=PL_-VfJajZj0U9nEXa4qyfB4U5ZIYCMPlz",
   },
   {
     title: "Xây Dựng Website với ReactJS",
-    url: "https://firebasestorage.googleapis.com/v0/b/course-eb7fe.appspot.com/o/171439298525613.png?alt=media&token=cee042c6-54d6-490b-bd92-64474d4cb29d",
+    url: "https://firebasestorage.googleapis.com/v0/b/course-eb7fe.appspot.com/o/13.png?alt=media&token=519b51ed-41cb-4751-95f8-f543772772eb",
     href: "https://www.youtube.com/watch?v=x0fSBAgBrOQ&list=PL_-VfJajZj0UXjlKfBwFX73usByw3Ph9Q",
   },
 ];
@@ -31,14 +31,17 @@ function Home() {
   const [dataCourseFree, setDataCourseFree] = useState([]);
 
   useEffect(() => {
-    courseService
-      .getAllCourse({})
+    getCourseFree({ page: 1, perPage: 5 })
       .then((course) => {
-        const dataPrice = course.data.data.filter((item) => item.price > 0);
-        const dataFree = course.data.data.filter((item) => item.price === 0);
+        setDataCourseFree(course.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-        setDataCoursePrice(dataPrice);
-        setDataCourseFree(dataFree);
+    getCoursePrice({ page: 1, perPage: 5 })
+      .then((course) => {
+        setDataCoursePrice(course.data.data);
       })
       .catch((error) => {
         console.log(error);

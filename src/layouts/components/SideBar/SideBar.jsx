@@ -16,9 +16,13 @@ const SIDEBAR_TEACHER = [
     title: "Khóa học đã bán",
     link: routes.courseSold,
   },
+  {
+    title: "Chấm bài tập",
+    link: routes.assignment,
+  },
 ];
 
-const SIDEBAR_BUSSINESS = [
+const SIDEBAR_BUSINESS = [
   {
     title: "Trang chủ",
     link: routes.homeManager,
@@ -31,10 +35,6 @@ const SIDEBAR_BUSSINESS = [
     title: "Thông tin tuyển dụng",
     link: routes.recruitment,
   },
-  {
-    title: "Danh sách ứng tuyển",
-    link: routes.applyRecruitment,
-  }
 ];
 
 const SIDEBAR_ADMIN = [
@@ -58,6 +58,10 @@ const SIDEBAR_ADMIN = [
     title: "Khóa học đã bán",
     link: routes.courseSoldAdmin,
   },
+  {
+    title: "Thông tin tuyển dụng",
+    link: routes.recruitment,
+  },
 ];
 
 function SideBar() {
@@ -67,7 +71,7 @@ function SideBar() {
   if (role === 0) {
     sideBarItem = SIDEBAR_ADMIN;
   } else if (role === 3) {
-    sideBarItem = SIDEBAR_BUSSINESS;
+    sideBarItem = SIDEBAR_BUSINESS;
   }
 
   return (

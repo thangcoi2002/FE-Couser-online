@@ -60,7 +60,7 @@ function CourseSoldAdmin() {
         </div>
       </div>
 
-      <TableCourseSold data={data} />
+      <TableCourseSold data={data} fetch={fetch} />
 
       <ReactPaginate
         pageCount={totalPage}

@@ -6,7 +6,7 @@ import { AuthContext } from "~/shared/AuthProvider";
 
 function TableUser({ data, onOpen }) {
   const location = useLocation();
-  const {role} = useContext(AuthContext)
+  const { role } = useContext(AuthContext);
   const [totalCourse, setTotalCourse] = useState(0);
 
   useEffect(() => {
@@ -84,7 +84,20 @@ function TableUser({ data, onOpen }) {
                 {role !== 3 && (
                   <td>
                     <button
-                      onClick={() => onOpen(item._id)}
+                      onClick={() => {
+                        if (
+                          location.pathname === routes.teacherAdmin &&
+                          totalCourse[index]?.data.length === 0
+                        ) {
+                          onOpen(item._id);
+                        } else {
+                          if (location.pathname === routes.studentAdmin) {
+                            onOpen(item._id);
+                          } else {
+                            alert("Không thể xóa giảng viên này");
+                          }
+                        }
+                      }}
                       className="font-medium p-4 text-red-600 dark:text-red-500 hover:underline"
                     >
                       Xóa
@@ -95,7 +108,7 @@ function TableUser({ data, onOpen }) {
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center py-4">
+              <td colSpan={7} className="text-center py-4">
                 There is no data
               </td>
             </tr>

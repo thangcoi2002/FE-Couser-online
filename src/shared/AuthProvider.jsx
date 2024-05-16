@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [role, setRole] = useState(2);
   const [loading, setLoading] = useState(false);
-
+  
   const login = (data) => {
     setLoading(true);
     authService

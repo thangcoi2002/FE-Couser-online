@@ -1,21 +1,34 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import routes from "~/config/routes";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import routes from "~/config/routes";
 import * as recruitmentService from "~/services/recruitmentService";
 
-function EditRecruitment() {
+function NewCourse() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const location = useLocation();
-
   const [data, setData] = useState({
     nameRecruitment: "",
+    description: "",
     quantity: 0,
   });
-  const [description, setDescription] = useState("");
+
+  const onChange = (e) => {
+    const newData = { ...data };
+    newData[e.target.name] = e.target.value;
+    setData(newData);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    recruitmentService
+      .postRecruitment({ data })
+      .then(navigate(routes.recruitment))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const modules = {
     toolbar: [
@@ -36,32 +49,6 @@ function EditRecruitment() {
       ["size", "link"],
     ],
   };
-
-  const onChange = (e) => {
-    const newData = { ...data };
-    newData[e.target.name] = e.target.value;
-    setData(newData);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const dataPut = {
-      nameRecruitment: data.nameRecruitment,
-      description: description,
-      quantity: data.quantity,
-    };
-    recruitmentService
-      .editRecruitment({ id, data: dataPut })
-      .then(navigate(routes.recruitment))
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    setData(location.state.data);
-    setDescription(location.state.data.description);
-  }, [location.state]);
 
   return (
     <form onSubmit={onSubmit} className="w-3/4 mx-auto mt-10">
@@ -84,6 +71,7 @@ function EditRecruitment() {
         </label>
       </div>
 
+      <p>Số lượng</p>
       <input
         type="number"
         name="quantity"
@@ -95,12 +83,12 @@ function EditRecruitment() {
 
       <ReactQuill
         theme="snow"
-        value={description}
-        onChange={setDescription}
+        value={data.description}
+        onChange={(e) => setData({ ...data, description: e })}
         modules={modules}
       />
 
-      <div className="flex mt-4 justify-center w-full">
+      <div className="flex justify-center w-full mt-4">
         <button
           type="submit"
           className=" bg-primary hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
@@ -112,4 +100,4 @@ function EditRecruitment() {
   );
 }
 
-export default EditRecruitment;
+export default NewCourse;
