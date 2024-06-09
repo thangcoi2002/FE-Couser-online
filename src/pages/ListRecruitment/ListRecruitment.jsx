@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ function ListRecruitment() {
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [body, setBody] = useState({});
+  const [statusCV, setStatusCV] = useState("Null");
   const [dataApply, setDataApply] = useState({
     fileCV: "",
     recruitmentId: "",
@@ -38,6 +39,15 @@ function ListRecruitment() {
     setDataApply({ ...dataApply, recruitmentId: item._id });
   };
 
+  const fetch = useCallback(() => {
+    getAllRecruitment({ page: currentPage, perPage: 4 })
+      .then((recruitment) => {
+        setData(recruitment.data);
+        setTotalPage(recruitment.totalPages);
+      })
+      .catch((error) => console.log(error));
+  }, [currentPage]);
+
   const onApply = () => {
     if (dataApply.fileCV) {
       const formData = new FormData();
@@ -49,6 +59,8 @@ function ListRecruitment() {
           if (apply.status === 200) {
             alert("Ứng tuyển thành công");
           }
+          setStatusCV("myCV");
+          fetch();
         })
         .catch((err) => console.log(err));
     } else {
@@ -57,13 +69,27 @@ function ListRecruitment() {
   };
 
   useEffect(() => {
-    getAllRecruitment({ page: currentPage, perPage: 4 })
-      .then((recruitment) => {
-        setData(recruitment.data);
-        setTotalPage(recruitment.totalPages);
-      })
-      .catch((error) => console.log(error));
-  }, [currentPage]);
+    fetch();
+  }, [fetch]);
+
+  useEffect(() => {
+    if (body.studentApply) {
+      if (
+        body.studentApply.filter((apply) => apply.status === 1).length ===
+        body.quantity
+      ) {
+        setStatusCV("full");
+      } else if (
+        body.studentApply.filter(
+          (apply) => apply.userId._id === currentUser._id
+        ).length > 0
+      ) {
+        setStatusCV("myCV");
+      } else {
+        setStatusCV("Null");
+      }
+    }
+  }, [body, currentUser]);
 
   return (
     <>
@@ -108,11 +134,8 @@ function ListRecruitment() {
               {<div dangerouslySetInnerHTML={{ __html: body.description }} />}
             </div>
             {token && role === 2 ? (
-              body.studentApply.filter((apply) => apply.status === 1).length <
-              body.quantity ? (
-                body?.studentApply.filter(
-                  (apply) => apply.userId._id !== currentUser._id
-                ).length === 0 ? (
+              statusCV !== "full" ? (
+                statusCV !== "myCV" ? (
                   <div className="border-t mt-10">
                     <input
                       type="file"

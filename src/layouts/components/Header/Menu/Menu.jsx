@@ -12,7 +12,7 @@ function Menu() {
   const navigate = useNavigate();
   const { logOut, currentUser, role } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-
+console.log(role);
   const MENU_ITEM = [
     {
       title: "Thông tín cá nhân",

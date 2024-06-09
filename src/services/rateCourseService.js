@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { httpRequest } from "~/utils/httprequest";
 
 export const sentRate = async ({ courseId, data }) => {

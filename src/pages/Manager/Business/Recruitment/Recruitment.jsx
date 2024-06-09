@@ -120,7 +120,6 @@ function Recruitment() {
               <th scope="col" className="px-6 py-3">
                 Tên khóa học
               </th>
-              <th>Mô tả</th>
               <th scope="col" className="px-6 py-3">
                 Số lượng tuyển dụng
               </th>
@@ -141,12 +140,6 @@ function Recruitment() {
                   <th className="px-6 py-4  font-medium text-gray-900">
                     {item.nameRecruitment}
                   </th>
-                  <td className="px-2 py-4 text-right">
-                    <FaEye
-                      className="cursor-pointer"
-                      onClick={() => openDetail(item.description)}
-                    />
-                  </td>
                   <td className="px-6 py-4 text-nowrap ">
                     <button
                       onClick={() =>
@@ -175,7 +168,7 @@ function Recruitment() {
                         }
                         className="font-medium p-2 text-blue-600 dark:text-blue-500 hover:underline"
                       >
-                        Sửa
+                        Chi tiết
                       </button>
                     </td>
                   )}
@@ -220,15 +213,6 @@ function Recruitment() {
         nextClassName={"my-auto"}
         breakLinkClassName={"p-3"}
         breakClassName={"my-auto"}
-      />
-
-      <Modal
-        title={body ? "Mô tả tuyển dụng" : "Bạn có chắc xóa bài đăng này"}
-        onClose={onClose}
-        showModal={showModal}
-        onSubmit={onSubmit}
-        description={"Bạn có chắc xóa bài đăng này"}
-        body={body}
       />
 
       <ModalUserApply
